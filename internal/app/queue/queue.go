@@ -31,8 +31,6 @@ func (q *Queue) Dispatch(topic, name string, message map[string]interface{}) err
 	}
 
 	sql := "insert into jobs (topic, name, message) values (?,?,?)"
-	// q.db.Open()
-	// defer q.db.Close()
 	_, err = q.db.Execute(sql, topic, name, string(strMessage))
 
 	if err != nil {
@@ -45,8 +43,6 @@ func (q *Queue) Dispatch(topic, name string, message map[string]interface{}) err
 func (q *Queue) Pull(topic string) (map[string]interface{}, error) {
 	// todo add set is_visible false
 	sql := "SELECT id, name, message from jobs where topic = ? and is_visible = 1 order by id desc"
-	// q.db.Open()
-	// defer q.db.Close()
 
 	var message map[string]interface{}
 	res, err := q.db.QueryOne(sql, topic)
