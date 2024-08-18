@@ -4,6 +4,7 @@
 // add custom commands
 // add DI across function calls / this is non singleton DI
 add create:event command
+cleanup html templages remove repetition of headers with template partials
 add Event listeners... 
     -local /added
     -other chanels, todo
