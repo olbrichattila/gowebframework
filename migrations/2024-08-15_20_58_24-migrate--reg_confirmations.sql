@@ -1,0 +1,6 @@
+CREATE TABLE reg_confirmations (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    uuid VARCHAR(36),
+    user_id INTEGER
+)

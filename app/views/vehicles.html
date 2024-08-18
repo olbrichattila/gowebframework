@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<!-- Created By CodingNepal -->
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Glowing Inputs Login Form UI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+
+<body>
+
+    <div class="header">
+        <label>Make</label>
+        <a class="button" href="/logout">Logout</a>
+    </div>
+    <div class="content">
+        <table>
+            {{ range $index, $value := . }}
+            <tr>
+                <td>
+
+                    <table>
+                        <div class="highlight">
+                            {{ index $value "Make" }}
+                            {{ index $value "Basemodel" }}
+                            {{ index $value "Model" }},
+                            {{ index $value "Fuel type" }}
+                            {{ index $value "Year" }}
+                        <div class="highlight">
+
+                        {{ range $fieldName, $fieldValue := $value }}
+                        <tr>
+                            <td>{{ $fieldName }}:</td>
+                            <td>{{ $fieldValue }}</td>
+                        </tr>
+                        {{ end }}
+
+                    </table>
+                </td>
+            </tr>
+            {{ end }}
+        </table>
+    </div>
+</body>
+
+</html>

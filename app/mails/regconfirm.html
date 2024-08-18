@@ -1,0 +1,8 @@
+<html>
+    <body>
+        <h1>Dear {{ index . "name" }}</h1>
+        <p>Thank you for registering</p>
+        <p>Please click the link to confirm your identity <a href="http://localhost:8000/confirm?uuid={{ index . "uuid" }}">Confirm</a></p>
+        <p>Bye</p>
+    </body>
+</html>

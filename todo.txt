@@ -1,0 +1,48 @@
+// add SMTP server --ok // update to be able to send attachments.?
+// add local queue, internal "cron" with goroutine --ok
+// create a default Storage interface, which could be reused for session, cache, log and other classes, inject the relevant one when we build the app
+// add custom commands
+// add DI across function calls / this is non singleton DI
+add create:event command
+add Event listeners... 
+    -local /added
+    -other chanels, todo
+add more customizable routes
+add redis, memcache, other session manager
+add session clanup
+add session bound to http only
+add @crsf
+add PDF generator from view
+add Validator
+add Testing with auto bootstrapping the app
+add File Storage (S3, and other)
+add Caching
+add Auto cdn, convert to webp, resize crop by file name suffix
+add Expand notification, next to emails to various channels, SMS, Push notification
+add Localisation (language translation)
+add Event broadcastion (see Laravel)
+add Add Policy Gate Authorization like  allow you to manage user permissions in an organized manner.
+add Event listeners internally, direct or queue, implement Observer
+add Logger (multiple channels) (1 channel. file is done)
+add Rate Limiter middleware
+add Models with relations to other Models
+add Route resource controller, (create crud)
+add someting like PHP artisan, creating boilerlate controllers, resource contorllers middlewares automatically
+add DB transactions
+add Mail queue automatically, so don't need to do your own queue for this.
+add Paginator
+add Test fakers
+add swith on off maintanance Mode
+add Encryption, decryption
+add HTTPS server (if possible)
+add Job middleware
+add Job rate Limiter
+add Config, Env config and config cache
+add Cookie module, encrypted cookies
+add DB seeder
+add Multi file uploading
+add Environment dependent service DI providers
+add simple support to add ReactJs
+separate mandatory framework DI and custom DI config file
+
+Todo full code cleanup, add tests

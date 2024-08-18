@@ -1,0 +1,1 @@
+create table car_fuel_type as select make, basemodel, model, fuel_type from vehicles group by make, basemodel, model, fuel_type order by make, basemodel, model, fuel_type

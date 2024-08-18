@@ -1,0 +1,59 @@
+{"created_at":"2024-08-17 21:40:44","message":"User attila@osoft.hu provides incorrect password","type":"info"}
+{"created_at":"2024-08-17 21:40:48","message":"User attila@osoft.hu logged in","type":"info"}
+{"created_at":"2024-08-17 21:41:31","message":"Registration mail sent to jeno@jeno.com","type":"info"}
+{"created_at":"2024-08-17 21:42:36","message":"User 26 IDexpired","type":"info"}
+{"created_at":"2024-08-17 22:34:30","message":"User attila@osoft.hu logged in","type":"info"}
+{"created_at":"2024-08-18 18:02:31","message":"Registration mail sent to josh@josh.com","type":"info"}
+{"created_at":"2024-08-18 19:09:01","message":"bootstrap.called","type":"info"}
+{"created_at":"2024-08-18 19:46:54","message":"bootstrap.called","type":"info"}
+{"created_at":"2024-08-18 19:48:34","message":"bootstrap.called","type":"info"}
+{"created_at":"2024-08-18 19:48:51","message":"bootstrap.called","type":"info"}
+{"created_at":"2024-08-18 19:49:12","message":"bootstrap.called","type":"info"}
+{"created_at":"2024-08-18 19:49:18","message":"bootstrap.called","type":"info"}
+{"created_at":"2024-08-18 19:49:30","message":"bootstrap.called","type":"info"}
+{"created_at":"2024-08-18 19:52:15","message":"bootstrap.called","type":"info"}
+{"created_at":"2024-08-18 19:52:54","message":"bootstrap.called","type":"info"}
+{"created_at":"2024-08-18 19:53:12","message":"bootstrap.called","type":"info"}
+{"created_at":"2024-08-18 19:54:11","message":"bootstrap.called","type":"info"}
+{"created_at":"2024-08-18 19:54:46","message":"bootstrap.called","type":"info"}
+{"created_at":"2024-08-18 19:55:02","message":"bootstrap.called","type":"info"}
+{"created_at":"2024-08-18 19:55:23","message":"bootstrap.called","type":"info"}
+{"created_at":"2024-08-18 19:55:48","message":"bootstrap.called","type":"info"}
+{"created_at":"2024-08-18 20:00:53","message":"bootstrap.called","type":"info"}
+{"created_at":"2024-08-18 20:03:49","message":"bootstrap.called","type":"info"}
+{"created_at":"2024-08-18 20:04:46","message":"Event event1 consumed","type":"info"}
+{"created_at":"2024-08-18 20:04:46","message":"Event event2 consumed","type":"info"}
+{"created_at":"2024-08-18 20:04:46","message":"bootstrap.called","type":"info"}
+{"created_at":"2024-08-18 20:06:50","message":"bootstrap.called","type":"info"}
+{"created_at":"2024-08-18 20:06:50","message":"Event event1 consumed","type":"info"}
+{"created_at":"2024-08-18 20:21:18","message":"bootstrap.called","type":"info"}
+{"created_at":"2024-08-18 20:21:24","message":"bootstrap.called","type":"info"}
+{"created_at":"2024-08-18 20:23:52","message":"bootstrap.called","type":"info"}
+{"created_at":"2024-08-18 20:24:06","message":"bootstrap.called","type":"info"}
+{"created_at":"2024-08-18 20:24:06","message":"Event event1 consumed","type":"info"}
+{"created_at":"2024-08-18 20:28:13","message":"bootstrap.called","type":"info"}
+{"created_at":"2024-08-18 20:28:13","message":"Event event1 consumed","type":"info"}
+{"created_at":"2024-08-18 20:29:19","message":"bootstrap.called","type":"info"}
+{"created_at":"2024-08-18 20:29:19","message":"Event event1 consumed","type":"info"}
+{"created_at":"2024-08-18 20:33:14","message":"bootstrap.called","type":"info"}
+{"created_at":"2024-08-18 20:33:18","message":"bootstrap.called","type":"info"}
+{"created_at":"2024-08-18 20:33:22","message":"bootstrap.called","type":"info"}
+{"created_at":"2024-08-18 20:33:22","message":"Event event1 consumed","type":"info"}
+{"created_at":"2024-08-18 20:37:24","message":"bootstrap.called","type":"info"}
+{"created_at":"2024-08-18 20:37:24","message":"Event event1 consumed","type":"info"}
+{"created_at":"2024-08-18 20:40:31","message":"bootstrap.called","type":"info"}
+{"created_at":"2024-08-18 20:40:31","message":"Event event1 consumed","type":"info"}
+{"created_at":"2024-08-18 20:46:04","message":"Event event1 consumed","type":"info"}
+{"created_at":"2024-08-18 20:46:04","message":"bootstrap.called","type":"info"}
+{"created_at":"2024-08-18 20:46:47","message":"bootstrap.called","type":"info"}
+{"created_at":"2024-08-18 20:46:47","message":"Event event1 consumed","type":"info"}
+{"created_at":"2024-08-18 20:48:20","message":"bootstrap.called","type":"info"}
+{"created_at":"2024-08-18 20:48:20","message":"Event event1 consumed","type":"info"}
+{"created_at":"2024-08-18 20:52:57","message":"bootstrap.called","type":"info"}
+{"created_at":"2024-08-18 20:56:56","message":"bootstrap.called","type":"info"}
+{"created_at":"2024-08-18 20:56:56","message":"Event event1 consumed","type":"info"}
+{"created_at":"2024-08-18 21:01:19","message":"bootstrap.called","type":"info"}
+{"created_at":"2024-08-18 21:01:19","message":"Event event1 consumed","type":"info"}
+{"created_at":"2024-08-18 21:03:18","message":"bootstrap.called","type":"info"}
+{"created_at":"2024-08-18 21:03:18","message":"Event event1 consumed","type":"info"}
+{"created_at":"2024-08-18 21:44:50","message":"bootstrap.called","type":"info"}

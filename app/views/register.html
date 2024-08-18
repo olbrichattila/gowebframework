@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<!-- Created By CodingNepal -->
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Glowing Inputs Login Form UI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <style>
+        body {
+            height: 100vh;
+        }
+    </style>
+</head>
+
+<body>
+    <form method="POST" action="/doregister">
+        <div class="login-form">
+            <div class="text">
+                Sign Up
+            </div>
+            <form>
+                <div class="field">
+                    <div class="fas fa-user"></div>
+                    <input type="text" name="name" value="{{.regUserName}}" placeholder="Your Name">
+                </div>
+                <div class="field">
+                    <div class="fas fa-envelope"></div>
+                    <input type="email" name="email" value="{{.regUserEmail}}" placeholder="Email">
+                </div>
+                <div class="field">
+                    <div class="fas fa-lock"></div>
+                    <input type="password" name="password" placeholder="Password">
+                </div>
+                <div class="field">
+                    <div class="fas fa-lock"></div>
+                    <input type="password" name="repeat-password" placeholder="Repeat password">
+                </div>
+
+                {{if .lastError}}
+                <div class="error field">
+                    {{.lastError}}
+                </div>
+                {{end}}
+
+                </div>
+                
+                <button>SIGN UP</button>
+                
+                <div class="link">
+                    Already a member?
+                    <a href="/login">Login now</a>
+                </div>
+            </form>
+        </div>
+    </form>
+</body>
+</html>
