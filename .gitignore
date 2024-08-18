@@ -1,5 +1,5 @@
 database/database.sqlite
-sessions/
+sessions/*
 !sessions/.gitkeep
-log/
+log/*
 !log/.gitkeep
