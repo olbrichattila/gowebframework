@@ -4,6 +4,7 @@
 // add custom commands
 // add DI across function calls / this is non singleton DI
 // add create:event command
+add Validator, maybe combine with request, and possibility to validate in middleware and redirect, + store in session the fields validated to reuse
 cleanup html templages remove repetition of headers with template partials
 add Event listeners... 
     -local /added
@@ -14,7 +15,6 @@ add session clanup
 add session bound to http only
 add @crsf
 add PDF generator from view
-add Validator
 add Testing with auto bootstrapping the app
 add File Storage (S3, and other)
 add Caching
