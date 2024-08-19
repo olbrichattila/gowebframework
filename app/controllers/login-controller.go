@@ -52,7 +52,7 @@ func LoginPost(r request.Requester, db db.DBer, sqlBuilder builder.Builder, s se
 	}
 
 	if dbHashedPassword, ok := res["password"]; ok {
-		err := bcrypt.CompareHashAndPassword(dbHashedPassword.([]byte), []byte(password))
+		err := bcrypt.CompareHashAndPassword([]byte(dbHashedPassword.(string)), []byte(password))
 		if err != nil {
 			l.Info(fmt.Sprintf("User %s provides incorrect password", email))
 			s.Set("lastError", "User or password incorrect")

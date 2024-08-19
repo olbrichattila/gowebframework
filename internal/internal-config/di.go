@@ -29,6 +29,7 @@ var DiBindings = map[string]interface{}{
 	"internal.app.view.Viewer":       view.New(),
 	"internal.app.request.Requester": request.New(),
 	"internal.app.env.Enver":         env.New(),
+	"internal.app.db.DBFactoryer":    db.NewDBFactory(),
 	// "internal.app.db.DBer":                   db.New(),
 	"internal.app.db.DBer":                        getOpenedDb,
 	"internal.app.session.Sessioner":              session.New(storage.NewFileStorage()),

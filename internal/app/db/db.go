@@ -4,7 +4,7 @@ package db
 import (
 	"database/sql"
 	"fmt"
-	"os"
+	"framework/internal/app/logger"
 	"runtime"
 
 	// This needs to be blank imported as not directly referenced, but required
@@ -12,7 +12,7 @@ import (
 )
 
 type DBer interface {
-	Construct()
+	Construct(DBFactoryer, logger.Logger)
 	Open()
 	Close()
 	QueryAll(string, ...any) <-chan map[string]interface{}
@@ -22,7 +22,9 @@ type DBer interface {
 }
 
 type DB struct {
+	l         logger.Logger
 	db        *sql.DB
+	dbConfig  DBConfiger
 	lastError error
 }
 
@@ -34,7 +36,15 @@ func New() DBer {
 	return db
 }
 
-func (d *DB) Construct() {
+func (d *DB) Construct(dbConfig DBFactoryer, l logger.Logger) {
+	d.l = l
+	var err error
+	d.dbConfig, err = dbConfig.GetConnectionConfig()
+	if err != nil {
+		l.Error(fmt.Sprintf("Cannot get database config: %s", err.Error()))
+		return
+	}
+
 	d.Open()
 }
 
@@ -43,19 +53,11 @@ func (d *DB) Cleanup() {
 }
 
 func (d *DB) Open() {
-	conn := os.Getenv("DB_CONNECTION")
-	database := os.Getenv("DB_DATABASE")
 	var err error
-
-	if conn == "sqlite" {
-		d.db, err = sql.Open("sqlite3", database)
-		if err != nil {
-			panic(err)
-		}
-		return
+	d.db, err = sql.Open(d.dbConfig.getConnectionName(), d.dbConfig.getConnectionString())
+	if err != nil {
+		d.logError(err.Error())
 	}
-
-	panic("Connection type " + conn + " does not implemented")
 }
 
 func (d *DB) Close() {
@@ -113,7 +115,16 @@ func (d *DB) QueryAll(sql string, pars ...any) <-chan map[string]interface{} {
 			}
 			result := make(map[string]interface{}, colCount)
 			for i, colName := range cols {
-				result[colName] = *(row[i].(*interface{}))
+				value := *(row[i].(*interface{}))
+
+				switch v := value.(type) {
+				case string:
+					result[colName] = v
+				case []byte:
+					result[colName] = string(v)
+				default:
+					result[colName] = v
+				}
 			}
 			ch <- result
 			result = nil
@@ -165,7 +176,15 @@ func (d *DB) QueryOne(sql string, pars ...any) (map[string]interface{}, error) {
 
 	result := make(map[string]interface{}, colCount)
 	for i, colName := range cols {
-		result[colName] = *(row[i].(*interface{}))
+		value := *(row[i].(*interface{}))
+		switch v := value.(type) {
+		case string:
+			result[colName] = v
+		case []byte:
+			result[colName] = string(v)
+		default:
+			result[colName] = v
+		}
 	}
 
 	return result, nil
@@ -192,4 +211,10 @@ func (d *DB) Execute(sql string, pars ...any) (int64, error) {
 
 func (d *DB) GetLastError() error {
 	return d.lastError
+}
+
+func (d *DB) logError(message string) {
+	if d.l != nil {
+		d.l.Error(message)
+	}
 }

@@ -1,0 +1,1 @@
+create table car_model as select make, basemodel, model from vehicles group by make, basemodel, model order by make, basemodel, model

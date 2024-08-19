@@ -1,0 +1,1 @@
+create table car_year as select make, basemodel, model, fuel_type, `year` from vehicles group by make, basemodel, model, fuel_type, `year` order by make, basemodel, basemodel, fuel_type, `year`
