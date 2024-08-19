@@ -10,7 +10,7 @@ switch-mysql:
 	cp .env.mysql.example .env.csvimporter
 switch-pgsql:
 	cp .env.pgsql.example .env.migrator
-	cp .env.pgsql.example ..env.csvimporter
+	cp .env.pgsql.example .env.csvimporter
 switch-firebird:
 	cp .env.firebird.example .env.migrator
 	cp .env.firebird.example .env.csvimporter
