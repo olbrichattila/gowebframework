@@ -4,8 +4,19 @@
 // add custom commands
 // add DI across function calls / this is non singleton DI
 // add create:event command
+// add Route resource controller, (create crud)
+// add someting like PHP artisan, creating boilerlate controllers, resource contorllers middlewares automatically
+// separate mandatory framework DI and custom DI config file
+add Job middleware
+add Job rate Limiter
+add Config, Env config and config cache
+add DB transactions
+add Environment dependent service DI providers
 add Validator, maybe combine with request, and possibility to validate in middleware and redirect, + store in session the fields validated to reuse
-cleanup html templages remove repetition of headers with template partials
+cleanup html templates remove repetition of headers with template partials, auto load of partials from folder.
+concurrency locker // for DB expecially with SQLIte connection
+add context to DI, global context
+add global channels
 add Event listeners... 
     -local /added
     -other chanels, todo
@@ -23,27 +34,19 @@ add Expand notification, next to emails to various channels, SMS, Push notificat
 add Localisation (language translation)
 add Event broadcastion (see Laravel)
 add Add Policy Gate Authorization like  allow you to manage user permissions in an organized manner.
-add Event listeners internally, direct or queue, implement Observer
+add Event listeners internally, direct or queue, implement Observer (internal is done)
 add Logger (multiple channels) (1 channel. file is done)
 add Rate Limiter middleware
 add Models with relations to other Models
-add Route resource controller, (create crud)
-add someting like PHP artisan, creating boilerlate controllers, resource contorllers middlewares automatically
-add DB transactions
 add Mail queue automatically, so don't need to do your own queue for this.
 add Paginator
 add Test fakers
-add swith on off maintanance Mode
+add switch on off maintenance Mode
 add Encryption, decryption
 add HTTPS server (if possible)
-add Job middleware
-add Job rate Limiter
-add Config, Env config and config cache
 add Cookie module, encrypted cookies
 add DB seeder
 add Multi file uploading
-add Environment dependent service DI providers
 add simple support to add ReactJs
-separate mandatory framework DI and custom DI config file
 
 Todo full code cleanup, add tests
