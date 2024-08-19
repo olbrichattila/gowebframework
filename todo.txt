@@ -3,7 +3,7 @@
 // create a default Storage interface, which could be reused for session, cache, log and other classes, inject the relevant one when we build the app
 // add custom commands
 // add DI across function calls / this is non singleton DI
-add create:event command
+// add create:event command
 cleanup html templages remove repetition of headers with template partials
 add Event listeners... 
     -local /added
