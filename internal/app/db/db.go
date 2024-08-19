@@ -4,16 +4,15 @@ package db
 import (
 	"database/sql"
 	"fmt"
-	"framework/internal/app/env"
+	"os"
 	"runtime"
 
 	// This needs to be blank imported as not directly referenced, but required
-
 	_ "github.com/mattn/go-sqlite3" // Import the SQLite driver
 )
 
 type DBer interface {
-	Construct(env.Enver)
+	Construct()
 	Open()
 	Close()
 	QueryAll(string, ...any) <-chan map[string]interface{}
@@ -23,7 +22,6 @@ type DBer interface {
 }
 
 type DB struct {
-	env       env.Enver
 	db        *sql.DB
 	lastError error
 }
@@ -36,8 +34,7 @@ func New() DBer {
 	return db
 }
 
-func (d *DB) Construct(env env.Enver) {
-	d.env = env
+func (d *DB) Construct() {
 	d.Open()
 }
 
@@ -46,11 +43,12 @@ func (d *DB) Cleanup() {
 }
 
 func (d *DB) Open() {
-	conn := d.env.Get("DB_CONNECTION")
+	conn := os.Getenv("DB_CONNECTION")
+	database := os.Getenv("DB_DATABASE")
 	var err error
 
 	if conn == "sqlite" {
-		d.db, err = sql.Open("sqlite3", d.env.Get("DB_DATABASE"))
+		d.db, err = sql.Open("sqlite3", database)
 		if err != nil {
 			panic(err)
 		}

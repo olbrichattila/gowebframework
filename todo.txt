@@ -7,6 +7,9 @@
 // add Route resource controller, (create crud)
 // add someting like PHP artisan, creating boilerlate controllers, resource contorllers middlewares automatically
 // separate mandatory framework DI and custom DI config file
+add .env  
+add .conf.yml (include in config to fetch)
+add migrator as internal command, so we can get rid of .env.migrator
 add Job middleware
 add Job rate Limiter
 add Config, Env config and config cache
@@ -15,6 +18,7 @@ add Environment dependent service DI providers
 add Validator, maybe combine with request, and possibility to validate in middleware and redirect, + store in session the fields validated to reuse
 cleanup html templates remove repetition of headers with template partials, auto load of partials from folder.
 concurrency locker // for DB expecially with SQLIte connection
+add different DB types, MySql, Postgres, Firebird, (sqlite exists)
 add context to DI, global context
 add global channels
 add Event listeners... 

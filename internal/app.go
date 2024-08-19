@@ -9,6 +9,7 @@ import (
 	commandexecutor "framework/internal/app/command"
 	"framework/internal/app/config"
 	"framework/internal/app/cron"
+	"framework/internal/app/env"
 	"framework/internal/app/request"
 	internalconfig "framework/internal/internal-config"
 	"net/http"
@@ -55,6 +56,7 @@ type App struct {
 }
 
 func (a *App) Construct(
+	_ env.Enver, // It will automatically loads env with it's constructor
 	cron cron.JobTimer,
 	ce commandexecutor.CommandExecutor,
 ) {
