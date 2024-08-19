@@ -282,6 +282,47 @@ var Jobs = []cron.Job{
 	{Seconds: 30, Fn: job.ExpireEmailConfJob},
 }
 ```
+### Create events
+example:
+```
+go run ./cmd/ artisan create:event-consumer my-first-event
+```
+
+Generated file:
+```
+package eventconsumer
+
+// MyFirstEventEventConsumer function takes first parameter as string, which is the event payload
+// after can take any parameters defined in the Di config
+func MyFirstEventEventConsumer(payload string) {
+}
+```
+
+Dispatch event which will be consumed to events subscribed to it.
+
+```
+// Bootstrap is a good place to subscribe to events globally, but can in any type of function, like controllers, 
+// you can usubscribe if you need
+func Bootstrap(l logger.Logger, e event.Eventer) {
+	// Example event subscriber, consumer
+	e.Subscribe("topic", "example1", eventconsumer.ExampleConsumer)
+	e.Subscribe("topic", "example2", eventconsumer.ExampleConsumer2)
+}
+
+// Unsubscribe events:
+e.UnSubscribe("topic", "example1")
+e.UnSubscribe("topic", "example2")
+
+
+// Dispatch anywhere, all events consumers will pick it up with it's payload asynchronously 
+func MyAction(e event.Eventer) string {
+	// Payload should be a string, good way to use json marshal, and unmarshal in consumer if you pass complex data
+	payload := "{\"event\": \"dispatcher\"}"
+	e.Dispatch("topic", payload)
+
+	return "Event dispatched"
+}
+```
 
 ## Migrations
 Install migrator
@@ -456,7 +497,6 @@ if err != nil {
 To see all features look at the package documentation at: https://github.com/olbrichattila/gosqlbuilder
 
 ## Logger:
-
 Example:
 ```
 func Bootstrap(l logger.Logger) {
