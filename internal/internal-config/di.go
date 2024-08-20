@@ -16,12 +16,32 @@ import (
 	"framework/internal/app/view"
 	wizard "framework/internal/app/wizards/class"
 	commandcreator "framework/internal/app/wizards/command"
+	"os"
 
 	gosqlbuilder "github.com/olbrichattila/gosqlbuilder"
+	pkg "github.com/olbrichattila/gosqlbuilder/pkg"
 )
 
 func getOpenedDb() interface{} {
 	return db.New()
+}
+
+func getSqlBuilder() interface{} {
+	dbConnection := os.Getenv(db.EnvdbConnection)
+	builder := gosqlbuilder.New()
+
+	switch dbConnection {
+	case db.DbConnectionTypeSqLite:
+		builder.SetSQLFlavour(pkg.FlavourSqLite)
+	case db.DbConnectionTypeMySQL:
+		builder.SetSQLFlavour(pkg.FlavourMySQL)
+	case db.DbConnectionTypePgSQL:
+		builder.SetSQLFlavour(pkg.FlavourPgSQL)
+	case db.DbConnectionTypeFirebird:
+		builder.SetSQLFlavour(pkg.FlavourFirebirdSQL)
+	}
+
+	return builder
 }
 
 var DiBindings = map[string]interface{}{
@@ -41,6 +61,5 @@ var DiBindings = map[string]interface{}{
 	"internal.app.command.CommandExecutor":        commandexecutor.New(),
 	"internal.app.wizards.class.ClassCreator":     wizard.NewClassCreator(),
 	"internal.app.event.Eventer":                  event.NewLocalEvent(),
-
-	"olbrichattila.gosqlbuilder.pkg.Builder": gosqlbuilder.New(),
+	"olbrichattila.gosqlbuilder.pkg.Builder":      getSqlBuilder,
 }

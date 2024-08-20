@@ -7,7 +7,8 @@
 // add Route resource controller, (create crud)
 // add someting like PHP artisan, creating boilerlate controllers, resource contorllers middlewares automatically
 // separate mandatory framework DI and custom DI config file
-fix SQL Builder component does not work for Postgres, Need to be able to change field delimeter from ` to ", And parameter binding is not ? but $1, $2
+// fix SQL Builder component does not work for Postgres, Need to be able to change field delimeter from ` to ", And parameter binding is not ? but $1, $2
+fix SQL builder with postgres does not support last insert ID
 add .env  
 add .conf.yml (include in config to fetch)
 add migrator as internal command, so we can get rid of .env.migrator

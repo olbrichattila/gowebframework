@@ -20,6 +20,10 @@ github.com/olbrichattila/godi v1.0.17 h1:HFdBjlNQfKxio+E3p6rUawkVpvdjsoduPAt8wvu
 github.com/olbrichattila/godi v1.0.17/go.mod h1:A1b6+kCJZzoujK4adFE9Yt0ACJQxm0O3ib6N0VavUwQ=
 github.com/olbrichattila/gosqlbuilder v1.0.3 h1:jx6L7bVh2EnFEEWuLiodIrKemiILBuRWfPCAgpXVwdw=
 github.com/olbrichattila/gosqlbuilder v1.0.3/go.mod h1:5byeuAOdPbR2dfIAtCCQZ9BpYVZYmRFgO4m0Rv2vS78=
+github.com/olbrichattila/gosqlbuilder v1.0.4 h1:GqjK5925hJqnhsh8xtpf03Dse0Opd9YxAG3ub/w5SA4=
+github.com/olbrichattila/gosqlbuilder v1.0.4/go.mod h1:5byeuAOdPbR2dfIAtCCQZ9BpYVZYmRFgO4m0Rv2vS78=
+github.com/olbrichattila/gosqlbuilder v1.0.5 h1:wuZorTTvyZz3PE+JicQzukC5QBPhi7/iKbVyL0UMrMg=
+github.com/olbrichattila/gosqlbuilder v1.0.5/go.mod h1:5byeuAOdPbR2dfIAtCCQZ9BpYVZYmRFgO4m0Rv2vS78=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/remyoudompheng/bigfft v0.0.0-20200410134404-eec4a21b6bb0 h1:OdAsTTz6OkFY5QxjkYwrChwuRruF69c169dPK26NUlk=

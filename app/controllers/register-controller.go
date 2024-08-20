@@ -96,6 +96,7 @@ func PostRegister(r request.Requester, db db.DBer, sqlBuilder builder.Builder, s
 	}
 
 	params = sqlBuilder.GetParams()
+
 	userId, err := db.Execute(sql, params...)
 	if err != nil {
 		s.Set("lastError", err.Error())

@@ -19,13 +19,13 @@ const (
 	driverNameMySQL    = "mysql"
 	driverNamePostgres = "postgres"
 
-	dbConnectionTypeSqLite   = "sqlite"
-	dbConnectionTypeMySQL    = "mysql"
-	dbConnectionTypePgSQL    = "pgsql"
-	dbConnectionTypeFirebird = "firebird"
-	dbConnectionTypeMemory   = "memory"
+	DbConnectionTypeSqLite   = "sqlite"
+	DbConnectionTypeMySQL    = "mysql"
+	DbConnectionTypePgSQL    = "pgsql"
+	DbConnectionTypeFirebird = "firebird"
+	DbConnectionTypeMemory   = "memory"
 
-	envdbConnection = "DB_CONNECTION"
+	EnvdbConnection = "DB_CONNECTION"
 	envdbUserName   = "DB_USERNAME"
 	envdbPassword   = "DB_PASSWORD"
 	envdbHost       = "DB_HOST"
@@ -39,18 +39,18 @@ type DBconf struct {
 }
 
 func (c *DBconf) GetConnectionConfig() (DBConfiger, error) {
-	dbConnection := os.Getenv(envdbConnection)
+	dbConnection := os.Getenv(EnvdbConnection)
 
 	switch dbConnection {
-	case dbConnectionTypeSqLite:
+	case DbConnectionTypeSqLite:
 		return newSqliteConfig(), nil
-	case dbConnectionTypeMySQL:
+	case DbConnectionTypeMySQL:
 		return newMySQLConfig(), nil
-	case dbConnectionTypePgSQL:
+	case DbConnectionTypePgSQL:
 		return newPgsqlConfig(), nil
-	case dbConnectionTypeFirebird:
+	case DbConnectionTypeFirebird:
 		return newFirebirdConfig(), nil
-	case dbConnectionTypeMemory:
+	case DbConnectionTypeMemory:
 		return newMemoryDBConfig(), nil
 	default:
 		return nil, fmt.Errorf("invalid DB_CONNECTION %s", dbConnection)
