@@ -5,7 +5,9 @@ import (
 	"database/sql"
 	"fmt"
 	"framework/internal/app/logger"
+	"regexp"
 	"runtime"
+	"strings"
 
 	// This needs to be blank imported as not directly referenced, but required
 	_ "github.com/mattn/go-sqlite3" // Import the SQLite driver
@@ -67,6 +69,7 @@ func (d *DB) Close() {
 }
 
 func (d *DB) QueryAll(sql string, pars ...any) <-chan map[string]interface{} {
+	// sql = strings.ToUpper(sql) // TODO remove, this is test for firebird
 	ch := make(chan map[string]interface{}, 1)
 	d.lastError = nil
 	if d.db == nil {
@@ -138,6 +141,7 @@ func (d *DB) QueryAll(sql string, pars ...any) <-chan map[string]interface{} {
 }
 
 func (d *DB) QueryOne(sql string, pars ...any) (map[string]interface{}, error) {
+	// sql = strings.ToUpper(sql) // TODO remove, this is test for firebird
 	if d.db == nil {
 		return nil, fmt.Errorf("db not open")
 	}
@@ -191,6 +195,7 @@ func (d *DB) QueryOne(sql string, pars ...any) (map[string]interface{}, error) {
 }
 
 func (d *DB) Execute(sql string, pars ...any) (int64, error) {
+	// sql = strings.ToUpper(sql) // TODO remove, this is test for firebird
 	if d.db == nil {
 		return 0, fmt.Errorf("db not open")
 	}
@@ -205,8 +210,66 @@ func (d *DB) Execute(sql string, pars ...any) (int64, error) {
 	if err != nil {
 		return 0, err
 	}
+	ret, err := res.LastInsertId()
+	if err != nil {
+		// PG SQL does not support last insert ID, try to get it
+		// It is really hacky, and could just use RETURNS id in the SQL, it is here to be compatible with MySql, SqLite
+		// but way less performant
+		return d.getPgSQLLastInsertId(sql)
+	}
+	return ret, nil
+}
 
-	return res.LastInsertId()
+func (d *DB) getPgSQLLastInsertId(sql string) (int64, error) {
+	tableName := d.extractTableName(sql)
+	if tableName == "" {
+		return 0, nil
+	}
+
+	primaryKey := d.getPrimaryKey(tableName)
+	if primaryKey == "" {
+		return 0, nil
+	}
+
+	r, err := d.QueryOne("SELECT currval(pg_get_serial_sequence('" + tableName + "', '" + primaryKey + "')) as last_id")
+	if err != nil {
+		return 0, err
+	}
+	if val, ok := r["last_id"]; ok {
+		return val.(int64), nil
+	}
+
+	return 0, nil
+}
+
+func (d *DB) getPrimaryKey(tableName string) string {
+	sql := `SELECT a.attname
+        FROM   pg_index i
+        JOIN   pg_attribute a ON a.attrelid = i.indrelid
+                             AND a.attnum = ANY(i.indkey)
+        WHERE  i.indrelid = $1::regclass
+        AND    i.indisprimary`
+
+	res, err := d.QueryOne(sql, tableName)
+	if err != nil {
+		return ""
+	}
+
+	if id, ok := res["attname"]; ok {
+		return id.(string)
+	}
+
+	return ""
+}
+
+func (d *DB) extractTableName(sql string) string {
+	query := strings.ToLower(sql)
+	re := regexp.MustCompile(`insert\sinto\s+\"(\w+)\"`)
+	match := re.FindStringSubmatch(query)
+	if len(match) > 1 {
+		return strings.ReplaceAll(match[1], `"`, "")
+	}
+	return ""
 }
 
 func (d *DB) GetLastError() error {

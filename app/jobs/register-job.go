@@ -15,6 +15,7 @@ import (
 func SendRegistrationEmail(q queue.Quer, m mail.Mailer, v view.Viewer, l logger.Logger) {
 	res, err := q.Pull("register")
 	if err != nil {
+		// That's ok, queue is empty
 		return
 	}
 
