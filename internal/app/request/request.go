@@ -43,7 +43,7 @@ func (r *Request) Get() map[string][]string {
 }
 
 func (r *Request) Post() map[string][]string {
-	r.r.ParseForm() //TODO should handle error
+	r.r.ParseForm() // TODO should handle error
 	return r.r.Form
 }
 
