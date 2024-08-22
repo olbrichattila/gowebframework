@@ -8,8 +8,10 @@
 // add someting like PHP artisan, creating boilerlate controllers, resource contorllers middlewares automatically
 // separate mandatory framework DI and custom DI config file
 // fix SQL Builder component does not work for Postgres, Need to be able to change field delimeter from ` to ", And parameter binding is not ? but $1, $2
-fix SQL builder with postgres does not support last insert ID
-add .env  
+// fix SQL builder with postgres does not support last insert ID
+// fix SQL builder with firebird SQL does not support last insert ID
+// add .env  
+// add different DB types, MySql, Postgres, Firebird, (sqlite exists)
 add .conf.yml (include in config to fetch)
 add migrator as internal command, so we can get rid of .env.migrator
 add Job middleware
@@ -20,7 +22,6 @@ add Environment dependent service DI providers
 add Validator, maybe combine with request, and possibility to validate in middleware and redirect, + store in session the fields validated to reuse
 cleanup html templates remove repetition of headers with template partials, auto load of partials from folder.
 concurrency locker // for DB expecially with SQLIte connection
-add different DB types, MySql, Postgres, Firebird, (sqlite exists)
 add context to DI, global context
 add global channels
 add Event listeners... 
