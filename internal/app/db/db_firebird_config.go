@@ -27,5 +27,5 @@ func (c *FirebirdConfig) getConnectionString() string {
 }
 
 func (c *FirebirdConfig) getConnectionName() string {
-	return driverNameFirebird
+	return DriverNameFirebird
 }

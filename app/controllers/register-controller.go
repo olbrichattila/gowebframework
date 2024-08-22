@@ -152,7 +152,6 @@ func ActivateAction(r request.Requester, db db.DBer, sqlBuilder builder.Builder,
 	}
 
 	if userId, ok := result["user_id"]; ok {
-
 		updateSql, err := sqlBuilder.Update("users").
 			Fields("activated_at").
 			Values(time.Now().Format("2006-01-02 15:04:05")).

@@ -210,14 +210,18 @@ func (d *DB) Execute(sql string, pars ...any) (int64, error) {
 	if err != nil {
 		return 0, err
 	}
-	ret, err := res.LastInsertId()
-	if err != nil {
-		// PG SQL does not support last insert ID, try to get it
-		// It is really hacky, and could just use RETURNS id in the SQL, it is here to be compatible with MySql, SqLite
-		// but way less performant
+
+	// PG SQL and FirebirdSql does not support last insert ID, try to get it
+	// It is really hacky, and could just use RETURNS id in the SQL, it is here to be compatible with MySql, SqLite
+	// but way less performant
+	switch d.dbConfig.getConnectionName() {
+	case DriverNamePostgres:
 		return d.getPgSQLLastInsertId(sql)
+	case DriverNameFirebird:
+		return d.getFirebirdLastInsertId(sql)
 	}
-	return ret, nil
+
+	return res.LastInsertId()
 }
 
 func (d *DB) getPgSQLLastInsertId(sql string) (int64, error) {
@@ -240,6 +244,48 @@ func (d *DB) getPgSQLLastInsertId(sql string) (int64, error) {
 	}
 
 	return 0, nil
+}
+
+func (d *DB) getFirebirdLastInsertId(sql string) (int64, error) {
+	tableName := d.extractTableName(sql)
+	if tableName == "" {
+		return 0, nil
+	}
+
+	generatorName := d.getFirebirdGeneratorName(tableName)
+	if generatorName == "" {
+		return 0, nil
+	}
+
+	r, err := d.QueryOne("SELECT GEN_ID(" + generatorName + ", 0) AS \"last_id\" FROM RDB$DATABASE;")
+	if err != nil {
+		return 0, err
+	}
+	if val, ok := r["last_id"]; ok {
+		return val.(int64), nil
+	}
+
+	return 0, nil
+}
+
+func (d *DB) getFirebirdGeneratorName(tableName string) string {
+	sql := `SELECT FIRST 1
+RDB$GENERATOR_NAME AS "generator_name"
+FROM RDB$RELATION_FIELDS WHERE RDB$RELATION_NAME = ?
+AND RDB$GENERATOR_NAME IS NOT NULL 
+AND RDB$IDENTITY_TYPE = 1
+ORDER BY RDB$FIELD_ID`
+
+	res, err := d.QueryOne(sql, tableName)
+	if err != nil {
+		return ""
+	}
+
+	if id, ok := res["generator_name"]; ok {
+		return id.(string)
+	}
+
+	return ""
 }
 
 func (d *DB) getPrimaryKey(tableName string) string {

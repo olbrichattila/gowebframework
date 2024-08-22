@@ -27,5 +27,5 @@ func (c *MySQLConfig) getConnectionString() string {
 }
 
 func (c *MySQLConfig) getConnectionName() string {
-	return driverNameMySQL
+	return DriverNameMySQL
 }

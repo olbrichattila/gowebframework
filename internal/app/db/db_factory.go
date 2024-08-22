@@ -14,10 +14,10 @@ type DBFactoryer interface {
 }
 
 const (
-	driverNameFirebird = "firebirdsql"
-	driverNameSqLite   = "sqlite3"
-	driverNameMySQL    = "mysql"
-	driverNamePostgres = "postgres"
+	DriverNameFirebird = "firebirdsql"
+	DriverNameSqLite   = "sqlite3"
+	DriverNameMySQL    = "mysql"
+	DriverNamePostgres = "postgres"
 
 	DbConnectionTypeSqLite   = "sqlite"
 	DbConnectionTypeMySQL    = "mysql"

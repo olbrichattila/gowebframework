@@ -28,5 +28,5 @@ func (c *PgSQLConfig) getConnectionString() string {
 }
 
 func (c *PgSQLConfig) getConnectionName() string {
-	return driverNamePostgres
+	return DriverNamePostgres
 }

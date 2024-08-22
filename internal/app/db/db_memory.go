@@ -12,5 +12,5 @@ func (c *MemoryConfig) getConnectionString() string {
 }
 
 func (c *MemoryConfig) getConnectionName() string {
-	return driverNameSqLite
+	return DriverNameSqLite
 }

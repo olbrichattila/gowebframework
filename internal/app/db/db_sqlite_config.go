@@ -19,5 +19,5 @@ func (c *SqLiteConfig) getConnectionString() string {
 }
 
 func (c *SqLiteConfig) getConnectionName() string {
-	return driverNameSqLite
+	return DriverNameSqLite
 }
