@@ -32,7 +32,13 @@ func New(container godi.Container) *App {
 		),
 	}
 
-	app.di.Build(app.conf.DiBindings())
+	for _, cbFunc := range app.conf.DiBindings() {
+		key, binding, err := cbFunc(app.di)
+		if err != nil {
+			panic(err.Error())
+		}
+		app.di.Set(key, binding)
+	}
 	app.di.Set("internal.app.config.Configer", app.conf)
 	app.di.Set("olbrichattila.godi.Container", app.di)
 

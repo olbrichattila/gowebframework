@@ -3,6 +3,7 @@ package internalconfig
 import (
 	"framework/internal/app/args"
 	commandexecutor "framework/internal/app/command"
+	"framework/internal/app/config"
 	"framework/internal/app/cron"
 	"framework/internal/app/db"
 	"framework/internal/app/env"
@@ -12,12 +13,12 @@ import (
 	"framework/internal/app/queue"
 	"framework/internal/app/request"
 	"framework/internal/app/session"
-	"framework/internal/app/storage"
 	"framework/internal/app/view"
 	wizard "framework/internal/app/wizards/class"
 	commandcreator "framework/internal/app/wizards/command"
 	"os"
 
+	"github.com/olbrichattila/godi"
 	gosqlbuilder "github.com/olbrichattila/gosqlbuilder"
 	pkg "github.com/olbrichattila/gosqlbuilder/pkg"
 )
@@ -44,22 +45,63 @@ func getSqlBuilder() interface{} {
 	return builder
 }
 
-var DiBindings = map[string]interface{}{
-	"internal.app.args.CommandArger": args.New(),
-	"internal.app.view.Viewer":       view.New(),
-	"internal.app.request.Requester": request.New(),
-	"internal.app.env.Enver":         env.New(),
-	"internal.app.db.DBFactoryer":    db.NewDBFactory(),
-	// "internal.app.db.DBer":                   db.New(),
-	"internal.app.db.DBer":                        getOpenedDb,
-	"internal.app.session.Sessioner":              session.New(storage.NewFileStorage()),
-	"internal.app.cron.JobTimer":                  cron.New(),
-	"internal.app.queue.Quer":                     queue.New(),
-	"internal.app.mail.Mailer":                    mail.New(),
-	"internal.app.logger.Logger":                  logger.New(storage.NewFileStorage()),
-	"internal.app.wizards.command.CommandCreator": commandcreator.New(),
-	"internal.app.command.CommandExecutor":        commandexecutor.New(),
-	"internal.app.wizards.class.ClassCreator":     wizard.NewClassCreator(),
-	"internal.app.event.Eventer":                  event.NewLocalEvent(),
-	"olbrichattila.gosqlbuilder.pkg.Builder":      getSqlBuilder,
+var DiBindings = []config.DiCallback{
+	func(di godi.Container) (string, interface{}, error) {
+		env, err := di.Get(env.New())
+		return "internal.app.env.Enver", env, err
+	},
+	func(di godi.Container) (string, interface{}, error) {
+		return "internal.app.args.CommandArger", args.New(), nil
+	},
+	func(di godi.Container) (string, interface{}, error) {
+		return "internal.app.view.Viewer", view.New(), nil
+	},
+	func(di godi.Container) (string, interface{}, error) {
+		return "internal.app.request.Requester", request.New(), nil
+	},
+	func(di godi.Container) (string, interface{}, error) {
+		return "internal.app.db.DBFactoryer", db.NewDBFactory(), nil
+	},
+	func(di godi.Container) (string, interface{}, error) {
+		return "internal.app.db.DBer", getOpenedDb, nil
+	},
+	func(di godi.Container) (string, interface{}, error) {
+		return "olbrichattila.gosqlbuilder.pkg.Builder", getSqlBuilder, nil
+	},
+	func(di godi.Container) (string, interface{}, error) {
+		return "internal.app.logger.LoggerStorageResolver", logger.NewSessionStorageResolver(), nil
+	},
+	func(di godi.Container) (string, interface{}, error) {
+		l, err := di.Get(logger.New())
+		return "internal.app.logger.Logger", l, err
+	},
+	func(di godi.Container) (string, interface{}, error) {
+		return "internal.app.session.SessionStorageResolver", session.NewSessionStorageResolver(), nil
+	},
+	func(di godi.Container) (string, interface{}, error) {
+		session, err := di.Get(session.New())
+		return "internal.app.session.Sessioner", session, err
+	},
+	func(di godi.Container) (string, interface{}, error) {
+		return "internal.app.cron.JobTimer", cron.New(), nil
+	},
+	func(di godi.Container) (string, interface{}, error) {
+		return "internal.app.queue.Quer", queue.New(), nil
+	},
+	func(di godi.Container) (string, interface{}, error) {
+		return "internal.app.mail.Mailer", mail.New(), nil
+	},
+
+	func(di godi.Container) (string, interface{}, error) {
+		return "internal.app.wizards.command.CommandCreator", commandcreator.New(), nil
+	},
+	func(di godi.Container) (string, interface{}, error) {
+		return "internal.app.command.CommandExecutor", commandexecutor.New(), nil
+	},
+	func(di godi.Container) (string, interface{}, error) {
+		return "internal.app.wizards.class.ClassCreator", wizard.NewClassCreator(), nil
+	},
+	func(di godi.Container) (string, interface{}, error) {
+		return "internal.app.event.Eventer", event.NewLocalEvent(), nil
+	},
 }

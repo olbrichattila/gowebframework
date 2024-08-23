@@ -23,5 +23,4 @@ func ListCommands(c config.Configer) {
 			fmt.Printf("     %s\n", commandItem.Desc)
 		}
 	}
-
 }

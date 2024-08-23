@@ -1,61 +1,46 @@
 package env
 
 import (
-	"fmt"
-	"framework/internal/app/logger"
 	"os"
 
 	"github.com/joho/godotenv"
 )
 
 type Enver interface {
-	Construct(l logger.Logger)
+	Construct()
 	Get(string) string
 }
 
 type Env struct {
-	l      logger.Logger
-	loaded bool
+	isLoaded bool
 }
 
 func New() Enver {
 	return &Env{
-		loaded: false,
+		isLoaded: false,
 	}
 }
 
 var envFileNames = []string{".env.migrator", ".env"}
 
-func (e *Env) Construct(l logger.Logger) {
-	if e.loaded {
+func (e *Env) Construct() {
+	if e.isLoaded {
 		return
 	}
-
-	e.l = l
 	for _, envFileName := range envFileNames {
 		e.loadEnvIfExits(envFileName)
 	}
-	e.loaded = true
+
+	e.isLoaded = true
 }
 
 func (e *Env) loadEnvIfExits(envFileName string) {
 	_, err := os.Stat(envFileName)
 	if err == nil {
-		if err := godotenv.Load(envFileName); err != nil {
-			e.logEnvLoadError(envFileName, err.Error())
-			return
+		err := godotenv.Load(envFileName)
+		if err != nil {
 		}
 		return
-	}
-
-	e.logEnvLoadError(envFileName, err.Error())
-}
-
-func (e *Env) logEnvLoadError(envFileName, errorName string) {
-	if e.l != nil {
-		e.l.Info(
-			fmt.Sprintf("Cannot load .env file %s: %s", envFileName, errorName),
-		)
 	}
 }
 

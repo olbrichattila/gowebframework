@@ -2,6 +2,7 @@ package session
 
 import (
 	"encoding/json"
+	"framework/internal/app/logger"
 	"framework/internal/app/storage"
 	"log"
 	"net/http"
@@ -15,13 +16,12 @@ const (
 	sessionStoragePath = "./sessions/"
 )
 
-func New(storage storage.Storager) Sessioner {
-	return &Session{
-		storage: storage,
-	}
+func New() Sessioner {
+	return &Session{}
 }
 
 type Sessioner interface {
+	Construct(logger.Logger, SessionStorageResolver)
 	Init(w http.ResponseWriter, r *http.Request)
 	Set(string, string)
 	Delete(string)
@@ -36,6 +36,12 @@ type Session struct {
 	id      string
 	r       *http.Request
 	w       http.ResponseWriter
+	l       logger.Logger
+}
+
+func (s *Session) Construct(l logger.Logger, srv SessionStorageResolver) {
+	s.l = l
+	s.storage = srv.GetSessionStorage()
 }
 
 func (s *Session) Init(w http.ResponseWriter, r *http.Request) {
@@ -64,20 +70,20 @@ func (s *Session) Set(key string, value string) {
 
 	hasKey, err := s.storage.HasKey(fileName)
 	if err != nil {
-		// TODO may log
+		s.logError(err)
 		return
 	}
 
 	if hasKey {
 		content, err := s.storage.Get(fileName)
 		if err != nil {
-			// TODO may log
+			s.logError(err)
 			return
 		}
 
 		err = json.Unmarshal([]byte(content), &values)
 		if err != nil {
-			// TODO may log
+			s.logError(err)
 			return
 		}
 	}
@@ -85,13 +91,13 @@ func (s *Session) Set(key string, value string) {
 	values[key] = value
 	newContent, err := json.Marshal(values)
 	if err != nil {
-		// TODO may log
+		s.logError(err)
 		return
 	}
 
 	err = s.storage.Put(fileName, string(newContent))
 	if err != nil {
-		// TODO may log
+		s.logError(err)
 	}
 }
 
@@ -184,4 +190,10 @@ func (s *Session) RemoveSession() {
 	}
 
 	http.SetCookie(s.w, cookie)
+}
+
+func (s *Session) logError(e error) {
+	if s.l != nil {
+		s.l.Error(e.Error())
+	}
 }

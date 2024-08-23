@@ -616,3 +616,31 @@ go run ./cmd
 
 .. To be continued
 
+## Custom dependencies
+you can provide your own dependencies.
+Map them in ```app/config/di.go```
+Example:
+```
+var DiBindings = []config.DiCallback{
+	func(di godi.Container) (string, interface{}, error) {
+		env, err := di.Get(env.New())
+		return "internal.app.env.Enver", env, err
+	},
+	...
+	...
+```
+## .env variables
+```
+REDIS_SERVER_HOST=localhost
+MEMCACHE_HOST=localhost
+
+SESSION_STORAGE=file
+SESSION_STORAGE=redis
+SESSION_STORAGE=db
+SESSION_STORAGE=memcached
+
+LOGGER_STORAGE=file
+LOGGER_STORAGE=redis
+LOGGER_STORAGE=db
+LOGGER_STORAGE=memcached
+```

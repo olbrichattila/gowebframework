@@ -4,14 +4,18 @@ import (
 	commandexecutor "framework/internal/app/command"
 	"framework/internal/app/cron"
 	"framework/internal/app/router"
+
+	"github.com/olbrichattila/godi"
 )
+
+type DiCallback func(godi.Container) (string, interface{}, error)
 
 func New(
 	routes []router.ControllerAction,
 	jobs []cron.Job,
 	middlewares []interface{},
-	appBindings map[string]interface{},
-	internalBindings map[string]interface{},
+	appBindings []DiCallback,
+	internalBindings []DiCallback,
 	appCommands map[string]commandexecutor.CommandItem,
 	internalCommands map[string]commandexecutor.CommandItem,
 ) Configer {
@@ -28,7 +32,7 @@ func New(
 
 type Configer interface {
 	Routes() []router.ControllerAction
-	DiBindings() map[string]interface{}
+	DiBindings() []DiCallback
 	ConsoleCommands() map[string]commandexecutor.CommandItem
 	Jobs() []cron.Job
 	Middlewares() []interface{}
@@ -38,8 +42,8 @@ type Conf struct {
 	routes           []router.ControllerAction
 	jobs             []cron.Job
 	middlewares      []interface{}
-	appBindings      map[string]interface{}
-	internalBindings map[string]interface{}
+	appBindings      []DiCallback
+	internalBindings []DiCallback
 	appCommands      map[string]commandexecutor.CommandItem
 	internalCommands map[string]commandexecutor.CommandItem
 }
@@ -48,8 +52,8 @@ func (c *Conf) Routes() []router.ControllerAction {
 	return c.routes
 }
 
-func (c *Conf) DiBindings() map[string]interface{} {
-	return c.mergeMaps(c.appBindings, c.internalBindings)
+func (c *Conf) DiBindings() []DiCallback {
+	return append(c.appBindings, c.internalBindings...)
 }
 
 func (c *Conf) ConsoleCommands() map[string]commandexecutor.CommandItem {
@@ -62,18 +66,6 @@ func (c *Conf) Jobs() []cron.Job {
 
 func (c *Conf) Middlewares() []interface{} {
 	return c.middlewares
-}
-
-func (*Conf) mergeMaps(maps ...map[string]interface{}) map[string]interface{} {
-	mergedMap := make(map[string]interface{})
-
-	for _, mergeMap := range maps {
-		for key, value := range mergeMap {
-			mergedMap[key] = value
-		}
-	}
-
-	return mergedMap
 }
 
 func (*Conf) mergeCommands(maps ...map[string]commandexecutor.CommandItem) map[string]commandexecutor.CommandItem {

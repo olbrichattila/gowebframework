@@ -1,3 +1,5 @@
 package appconfig
 
-var DiBindings = map[string]interface{}{}
+import "framework/internal/app/config"
+
+var DiBindings = []config.DiCallback{}

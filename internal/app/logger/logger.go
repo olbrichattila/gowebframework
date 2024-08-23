@@ -13,14 +13,14 @@ const (
 	typeCritical = "critical"
 )
 
-func New(storage storage.Storager) Logger {
+func New() Logger {
 	return &Logging{
-		storage:  storage,
 		filename: "log/app.log", // TODO make it configurable from conf.
 	}
 }
 
 type Logger interface {
+	Construct(LoggerStorageResolver)
 	Info(string)
 	Warning(string)
 	Error(string)
@@ -30,6 +30,10 @@ type Logger interface {
 type Logging struct {
 	storage  storage.Storager
 	filename string
+}
+
+func (s *Logging) Construct(loggerResolver LoggerStorageResolver) {
+	s.storage = loggerResolver.GetLoggerStorage()
 }
 
 func (l *Logging) Info(message string) {

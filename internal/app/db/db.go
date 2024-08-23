@@ -4,7 +4,6 @@ package db
 import (
 	"database/sql"
 	"fmt"
-	"framework/internal/app/logger"
 	"regexp"
 	"runtime"
 	"strings"
@@ -14,7 +13,8 @@ import (
 )
 
 type DBer interface {
-	Construct(DBFactoryer, logger.Logger)
+	// Construct(DBFactoryer, logger.Logger)
+	Construct(DBFactoryer)
 	Open()
 	Close()
 	QueryAll(string, ...any) <-chan map[string]interface{}
@@ -24,7 +24,7 @@ type DBer interface {
 }
 
 type DB struct {
-	l         logger.Logger
+	// l         logger.Logger
 	db        *sql.DB
 	dbConfig  DBConfiger
 	lastError error
@@ -38,12 +38,23 @@ func New() DBer {
 	return db
 }
 
-func (d *DB) Construct(dbConfig DBFactoryer, l logger.Logger) {
-	d.l = l
+// func (d *DB) Construct(dbConfig DBFactoryer, l logger.Logger) {
+// 	d.l = l
+// 	var err error
+// 	d.dbConfig, err = dbConfig.GetConnectionConfig()
+// 	if err != nil {
+// 		l.Error(fmt.Sprintf("Cannot get database config: %s", err.Error()))
+// 		return
+// 	}
+
+// 	d.Open()
+// }
+
+func (d *DB) Construct(dbConfig DBFactoryer) {
+
 	var err error
 	d.dbConfig, err = dbConfig.GetConnectionConfig()
 	if err != nil {
-		l.Error(fmt.Sprintf("Cannot get database config: %s", err.Error()))
 		return
 	}
 
@@ -323,7 +334,7 @@ func (d *DB) GetLastError() error {
 }
 
 func (d *DB) logError(message string) {
-	if d.l != nil {
-		d.l.Error(message)
-	}
+	// if d.l != nil {
+	// 	d.l.Error(message)
+	// }
 }

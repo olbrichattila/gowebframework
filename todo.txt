@@ -12,6 +12,9 @@
 // fix SQL builder with firebird SQL does not support last insert ID
 // add .env  
 // add different DB types, MySql, Postgres, Firebird, (sqlite exists)
+// add redis, memcache, other session manager
+// add Logger (multiple channels) (1 channel. file is done)
+add File Storage (S3, and other) 
 add .conf.yml (include in config to fetch)
 add migrator as internal command, so we can get rid of .env.migrator
 add Job middleware
@@ -28,13 +31,11 @@ add Event listeners...
     -local /added
     -other chanels, todo
 add more customizable routes
-add redis, memcache, other session manager
 add session clanup
 add session bound to http only
 add @crsf
 add PDF generator from view
 add Testing with auto bootstrapping the app
-add File Storage (S3, and other)
 add Caching
 add Auto cdn, convert to webp, resize crop by file name suffix
 add Expand notification, next to emails to various channels, SMS, Push notification
@@ -42,7 +43,6 @@ add Localisation (language translation)
 add Event broadcastion (see Laravel)
 add Add Policy Gate Authorization like  allow you to manage user permissions in an organized manner.
 add Event listeners internally, direct or queue, implement Observer (internal is done)
-add Logger (multiple channels) (1 channel. file is done)
 add Rate Limiter middleware
 add Models with relations to other Models
 add Mail queue automatically, so don't need to do your own queue for this.
