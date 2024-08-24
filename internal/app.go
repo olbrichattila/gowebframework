@@ -120,9 +120,7 @@ func (h *hTTPHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 
 	for _, action := range routes {
-		match, routePars := h.app.router.Match(action.Path, r.URL.Path)
-
-		fmt.Println(match, routePars)
+		match, routePars := h.app.router.Match(action.Path, r.RequestURI)
 		// if action.Path == r.URL.Path {
 		if match {
 			if action.RequestType != r.Method {

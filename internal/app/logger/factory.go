@@ -1,7 +1,6 @@
 package logger
 
 import (
-	"fmt"
 	"framework/internal/app/db"
 	"framework/internal/app/storage"
 	"os"
@@ -24,7 +23,6 @@ type Resolver struct {
 
 func (r *Resolver) Construct(db db.DBer, sqlBuilder builder.Builder) {
 	storageName := os.Getenv("LOGGER_STORAGE")
-	fmt.Printf("Session Storage: %s\n", storageName)
 	switch storageName {
 	case "file":
 		r.storage = storage.NewFileStorage()

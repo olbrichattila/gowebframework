@@ -2,7 +2,6 @@ package view
 
 import (
 	"bytes"
-	"fmt"
 	"net/url"
 	"os"
 	"path/filepath"
@@ -68,7 +67,6 @@ func (v *View) Render(templates []string, params any) string {
 
 	// Create a bytes.Buffer to hold the rendered template
 	var buf bytes.Buffer
-	fmt.Println("funcs", funcs)
 	err = tmpl.ExecuteTemplate(&buf, templates[0], params)
 	if err != nil {
 		return err.Error()
@@ -109,12 +107,10 @@ func (v *View) NewPath(p ...string) {
 func (v *View) mergeFuncMap() template.FuncMap {
 	merged := make(template.FuncMap, 0)
 	for funcName, value := range v.getDefaultFuncs() {
-		fmt.Println(funcName)
 		merged[funcName] = value
 	}
 
 	for funcName, value := range v.funcs {
-		fmt.Println(funcName)
 		merged[funcName] = value
 	}
 
