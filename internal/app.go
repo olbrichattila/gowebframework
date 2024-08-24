@@ -80,7 +80,7 @@ func (a *App) Serve() {
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
 	http.Handle("/", hTTPHandler)
 
-	err := http.ListenAndServe(":8001", nil)
+	err := http.ListenAndServe(":8000", nil)
 	if err != nil {
 		fmt.Println(err.Error())
 	}
