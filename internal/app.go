@@ -11,6 +11,7 @@ import (
 	"framework/internal/app/cron"
 	"framework/internal/app/env"
 	"framework/internal/app/request"
+	"framework/internal/app/router"
 	internalconfig "framework/internal/internal-config"
 	"net/http"
 	"reflect"
@@ -57,6 +58,7 @@ func New(container godi.Container) *App {
 
 type App struct {
 	di              godi.Container
+	router          router.Router
 	conf            config.Configer
 	commandExecutor commandexecutor.CommandExecutor
 }
@@ -64,9 +66,11 @@ type App struct {
 func (a *App) Construct(
 	_ env.Enver, // It will automatically loads env with it's constructor
 	cron cron.JobTimer,
+	router router.Router,
 	ce commandexecutor.CommandExecutor,
 ) {
 	cron.Init(a.di, a.conf.Jobs())
+	a.router = router
 	a.commandExecutor = ce
 }
 
@@ -76,7 +80,7 @@ func (a *App) Serve() {
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
 	http.Handle("/", hTTPHandler)
 
-	err := http.ListenAndServe(":8000", nil)
+	err := http.ListenAndServe(":8001", nil)
 	if err != nil {
 		fmt.Println(err.Error())
 	}
@@ -116,9 +120,17 @@ func (h *hTTPHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 
 	for _, action := range routes {
-		if action.Path == r.URL.Path {
+		match, routePars := h.app.router.Match(action.Path, r.URL.Path)
+
+		fmt.Println(match, routePars)
+		// if action.Path == r.URL.Path {
+		if match {
 			if action.RequestType != r.Method {
 				continue
+			}
+
+			if req, ok := dep.(request.Requester); ok {
+				req.SetRouteParameters(routePars)
 			}
 
 			for _, rootMiddleware := range action.Middlewares {

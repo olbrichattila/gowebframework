@@ -14,6 +14,9 @@
 // add different DB types, MySql, Postgres, Firebird, (sqlite exists)
 // add redis, memcache, other session manager
 // add Logger (multiple channels) (1 channel. file is done)
+// add Validator, maybe combine with request, and possibility to validate in middleware and redirect, + store in session the fields validated to reuse
+// add more customizable routes
+add Caching / html template and generic, use file, redis, db memcache drivers
 add File Storage (S3, and other) 
 add .conf.yml (include in config to fetch)
 add migrator as internal command, so we can get rid of .env.migrator
@@ -22,7 +25,6 @@ add Job rate Limiter
 add Config, Env config and config cache
 add DB transactions
 add Environment dependent service DI providers
-add Validator, maybe combine with request, and possibility to validate in middleware and redirect, + store in session the fields validated to reuse
 cleanup html templates remove repetition of headers with template partials, auto load of partials from folder.
 concurrency locker // for DB expecially with SQLIte connection
 add context to DI, global context
@@ -30,13 +32,11 @@ add global channels
 add Event listeners... 
     -local /added
     -other chanels, todo
-add more customizable routes
 add session clanup
 add session bound to http only
 add @crsf
 add PDF generator from view
 add Testing with auto bootstrapping the app
-add Caching
 add Auto cdn, convert to webp, resize crop by file name suffix
 add Expand notification, next to emails to various channels, SMS, Push notification
 add Localisation (language translation)
@@ -55,5 +55,5 @@ add Cookie module, encrypted cookies
 add DB seeder
 add Multi file uploading
 add simple support to add ReactJs
-
+add More view default func like auto route generator, whatever
 Todo full code cleanup, add tests

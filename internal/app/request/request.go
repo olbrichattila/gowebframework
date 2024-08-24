@@ -9,6 +9,7 @@ import (
 // TODO add JsonBody, passing a struct, and receiving back unmarshalled
 type Requester interface {
 	SetRequest(*http.Request)
+	SetRouteParameters(map[string]string)
 	GetRequest() *http.Request
 	Get() map[string][]string
 	Post() map[string][]string
@@ -27,11 +28,23 @@ func New() Requester {
 }
 
 type Request struct {
-	r *http.Request
+	r           *http.Request
+	routeParams map[string]string
 }
 
 func (r *Request) SetRequest(req *http.Request) {
 	r.r = req
+}
+
+func (r *Request) SetRouteParameters(routeParams map[string]string) {
+	r.routeParams = routeParams
+}
+
+func (r *Request) GetRouteParameters() map[string]string {
+	if r.routeParams == nil {
+		return make(map[string]string, 0)
+	}
+	return r.routeParams
 }
 
 func (r *Request) GetRequest() *http.Request {
@@ -50,6 +63,11 @@ func (r *Request) Post() map[string][]string {
 func (r *Request) GetOne(par, def string) string {
 	v := r.r.URL.Query().Get(par)
 	if v == "" {
+		rp := r.GetRouteParameters()
+		if par, ok := rp[par]; ok {
+			return par
+		}
+
 		return def
 	}
 
@@ -71,7 +89,6 @@ func (r *Request) PostOne(par, def string) string {
 }
 
 func (r *Request) All() map[string][]string {
-
 	get := r.Get()
 	post := r.Post()
 

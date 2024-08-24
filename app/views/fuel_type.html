@@ -26,7 +26,7 @@
                 {{ range $value := . }}
                 <tr>
                     <td>
-                        <a class="link" href="/year?basemodel={{ index $value "basemodel" }}&make={{ index $value "make" }}&model={{ index $value "model" }}&fuel_type={{ index $value "fuel_type" }}">{{ index $value "fuel_type" }}</a>
+                        <a class="link" href="/year/{{ urlEscape (index $value "basemodel") }}/{{ urlEscape (index $value "make") }}/{{ urlEscape (index $value "model") }}/{{ urlEscape (index $value "fuel_type") }}">{{ index $value "fuel_type" }}</a>
                     </td>
                 </tr>
                 {{ end }}

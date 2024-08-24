@@ -391,6 +391,25 @@ func RegisterAction(v view.Viewer) string {
 }
 ```
 
+## Built in functions
+- urlEscape (exapmle {{ urlEscape . }}) 
+- further to come
+
+## Adding custom functions
+
+```
+func yourFunc(str string) string {
+	return "it is your " + str
+}
+
+-------
+funcMap := template.FuncMap{
+		"yourFunc": yourFunc,
+	}
+v.Funcs(funcMap)
+
+```
+
 ## Return any text:
 ```
 func YourAction() string {

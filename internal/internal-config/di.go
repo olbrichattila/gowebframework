@@ -12,6 +12,7 @@ import (
 	"framework/internal/app/mail"
 	"framework/internal/app/queue"
 	"framework/internal/app/request"
+	"framework/internal/app/router"
 	"framework/internal/app/session"
 	"framework/internal/app/view"
 	wizard "framework/internal/app/wizards/class"
@@ -52,6 +53,9 @@ var DiBindings = []config.DiCallback{
 	},
 	func(di godi.Container) (string, interface{}, error) {
 		return "internal.app.args.CommandArger", args.New(), nil
+	},
+	func(di godi.Container) (string, interface{}, error) {
+		return "internal.app.router.Router", router.NewRouter(), nil
 	},
 	func(di godi.Container) (string, interface{}, error) {
 		return "internal.app.view.Viewer", view.New(), nil

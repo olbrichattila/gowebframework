@@ -26,7 +26,7 @@
                 {{ range $value := . }}
                 <tr>
                     <td>
-                        <a class="link" href="/basemodel?make={{ index $value "make" }}">{{ index $value "make" }}</a>
+                        <a class="link" href="/basemodel/{{ urlEscape (index $value "make") }}">{{ index $value "make" }}</a>
                     </td>
                 </tr>
                 {{ end }}

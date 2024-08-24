@@ -2,6 +2,8 @@ package view
 
 import (
 	"bytes"
+	"fmt"
+	"net/url"
 	"os"
 	"path/filepath"
 	"text/template"
@@ -13,6 +15,7 @@ type Viewer interface {
 	NewPath(...string)
 	RenderToFile(string, []string, any) error
 	RenderMailToFile(string, []string, any) error
+	Funcs(template.FuncMap) Viewer
 }
 
 func New() Viewer {
@@ -22,7 +25,8 @@ func New() Viewer {
 }
 
 type View struct {
-	path []string
+	path  []string
+	funcs template.FuncMap
 }
 
 func (v *View) RenderToFile(fileName string, templates []string, params any) error {
@@ -56,18 +60,20 @@ func (v *View) Render(templates []string, params any) string {
 	}
 
 	paths := v.addPath(templates)
-	tmpl, err := template.ParseFiles(paths...)
+	funcs := v.mergeFuncMap()
+	tmpl, err := template.New("example").Funcs(funcs).ParseFiles(paths...)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Create a bytes.Buffer to hold the rendered template
 	var buf bytes.Buffer
-
+	fmt.Println("funcs", funcs)
 	err = tmpl.ExecuteTemplate(&buf, templates[0], params)
 	if err != nil {
 		return err.Error()
 	}
+	v.funcs = make(template.FuncMap, 0)
 
 	// Return the rendered template as a string
 	return buf.String()
@@ -78,6 +84,11 @@ func (v *View) RenderMail(templates []string, params any) string {
 	result := v.Render(templates, params)
 	v.NewPath("app", "views")
 	return result
+}
+
+func (v *View) Funcs(fm template.FuncMap) Viewer {
+	v.funcs = fm
+	return v
 }
 
 func (v *View) addPath(templates []string) []string {
@@ -93,4 +104,25 @@ func (v *View) addPath(templates []string) []string {
 
 func (v *View) NewPath(p ...string) {
 	v.path = p
+}
+
+func (v *View) mergeFuncMap() template.FuncMap {
+	merged := make(template.FuncMap, 0)
+	for funcName, value := range v.getDefaultFuncs() {
+		fmt.Println(funcName)
+		merged[funcName] = value
+	}
+
+	for funcName, value := range v.funcs {
+		fmt.Println(funcName)
+		merged[funcName] = value
+	}
+
+	return merged
+}
+
+func (v *View) getDefaultFuncs() template.FuncMap {
+	return template.FuncMap{
+		"urlEscape": url.QueryEscape,
+	}
 }
