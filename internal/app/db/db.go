@@ -80,7 +80,6 @@ func (d *DB) Close() {
 }
 
 func (d *DB) QueryAll(sql string, pars ...any) <-chan map[string]interface{} {
-	// sql = strings.ToUpper(sql) // TODO remove, this is test for firebird
 	ch := make(chan map[string]interface{}, 1)
 	d.lastError = nil
 	if d.db == nil {
@@ -152,7 +151,6 @@ func (d *DB) QueryAll(sql string, pars ...any) <-chan map[string]interface{} {
 }
 
 func (d *DB) QueryOne(sql string, pars ...any) (map[string]interface{}, error) {
-	// sql = strings.ToUpper(sql) // TODO remove, this is test for firebird
 	if d.db == nil {
 		return nil, fmt.Errorf("db not open")
 	}
@@ -206,7 +204,6 @@ func (d *DB) QueryOne(sql string, pars ...any) (map[string]interface{}, error) {
 }
 
 func (d *DB) Execute(sql string, pars ...any) (int64, error) {
-	// sql = strings.ToUpper(sql) // TODO remove, this is test for firebird
 	if d.db == nil {
 		return 0, fmt.Errorf("db not open")
 	}

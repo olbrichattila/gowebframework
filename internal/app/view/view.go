@@ -2,13 +2,14 @@ package view
 
 import (
 	"bytes"
-	"net/url"
+	"framework/internal/app/config"
 	"os"
 	"path/filepath"
 	"text/template"
 )
 
 type Viewer interface {
+	Construct(config.Configer)
 	Render([]string, any) string
 	RenderMail([]string, any) string
 	NewPath(...string)
@@ -24,8 +25,13 @@ func New() Viewer {
 }
 
 type View struct {
-	path  []string
-	funcs template.FuncMap
+	config config.Configer
+	path   []string
+	funcs  template.FuncMap
+}
+
+func (v *View) Construct(conf config.Configer) {
+	v.config = conf
 }
 
 func (v *View) RenderToFile(fileName string, templates []string, params any) error {
@@ -106,7 +112,7 @@ func (v *View) NewPath(p ...string) {
 
 func (v *View) mergeFuncMap() template.FuncMap {
 	merged := make(template.FuncMap, 0)
-	for funcName, value := range v.getDefaultFuncs() {
+	for funcName, value := range v.config.ViewConfig() {
 		merged[funcName] = value
 	}
 
@@ -115,10 +121,4 @@ func (v *View) mergeFuncMap() template.FuncMap {
 	}
 
 	return merged
-}
-
-func (v *View) getDefaultFuncs() template.FuncMap {
-	return template.FuncMap{
-		"urlEscape": url.QueryEscape,
-	}
 }

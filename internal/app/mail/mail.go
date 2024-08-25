@@ -2,6 +2,7 @@ package mail
 
 import (
 	"net/smtp"
+	"os"
 	"strings"
 )
 
@@ -16,14 +17,12 @@ type Mailer interface {
 type Mail struct{}
 
 func (m *Mail) Send(from, to, subject, message string) error {
-	// TODO Set up the SMTP server configuration. from config
-	userName := "mailtrap"
-	password := "mailtrap"
-	smtpHost := "localhost" // Replace with your SMTP server (e.g., smtp.gmail.com)
-	smtpPort := "1025"      // Port typically used for TLS (for Gmail, it's 587)
+	userName := os.Getenv("SMTP_USER_NAME")
+	password := os.Getenv("SMTP_PASSWORD")
+	smtpHost := os.Getenv("SMTP_HOST")
+	smtpPort := os.Getenv("SMTP_PORT")
 
 	auth := smtp.PlainAuth("", userName, password, smtpHost)
-
 	composedMessage := m.compose(
 		"From: ", from, "\r\n",
 		"To: ", to, "\r\n",

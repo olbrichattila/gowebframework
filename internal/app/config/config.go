@@ -4,6 +4,7 @@ import (
 	commandexecutor "framework/internal/app/command"
 	"framework/internal/app/cron"
 	"framework/internal/app/router"
+	"text/template"
 
 	"github.com/olbrichattila/godi"
 )
@@ -18,15 +19,19 @@ func New(
 	internalBindings []DiCallback,
 	appCommands map[string]commandexecutor.CommandItem,
 	internalCommands map[string]commandexecutor.CommandItem,
+	appViewConfig template.FuncMap,
+	internalViewConfig template.FuncMap,
 ) Configer {
 	return &Conf{
-		routes:           routes,
-		jobs:             jobs,
-		middlewares:      middlewares,
-		appBindings:      appBindings,
-		internalBindings: internalBindings,
-		appCommands:      appCommands,
-		internalCommands: internalCommands,
+		routes:             routes,
+		jobs:               jobs,
+		middlewares:        middlewares,
+		appBindings:        appBindings,
+		internalBindings:   internalBindings,
+		appCommands:        appCommands,
+		internalCommands:   internalCommands,
+		appViewConfig:      appViewConfig,
+		internalViewConfig: internalViewConfig,
 	}
 }
 
@@ -36,16 +41,19 @@ type Configer interface {
 	ConsoleCommands() map[string]commandexecutor.CommandItem
 	Jobs() []cron.Job
 	Middlewares() []interface{}
+	ViewConfig() template.FuncMap
 }
 
 type Conf struct {
-	routes           []router.ControllerAction
-	jobs             []cron.Job
-	middlewares      []interface{}
-	appBindings      []DiCallback
-	internalBindings []DiCallback
-	appCommands      map[string]commandexecutor.CommandItem
-	internalCommands map[string]commandexecutor.CommandItem
+	routes             []router.ControllerAction
+	jobs               []cron.Job
+	middlewares        []interface{}
+	appBindings        []DiCallback
+	internalBindings   []DiCallback
+	appCommands        map[string]commandexecutor.CommandItem
+	internalCommands   map[string]commandexecutor.CommandItem
+	appViewConfig      template.FuncMap
+	internalViewConfig template.FuncMap
 }
 
 func (c *Conf) Routes() []router.ControllerAction {
@@ -66,6 +74,19 @@ func (c *Conf) Jobs() []cron.Job {
 
 func (c *Conf) Middlewares() []interface{} {
 	return c.middlewares
+}
+
+func (c *Conf) ViewConfig() template.FuncMap {
+	mergedConfig := make(template.FuncMap)
+	for key, value := range c.appViewConfig {
+		mergedConfig[key] = value
+	}
+
+	for key, value := range c.internalViewConfig {
+		mergedConfig[key] = value
+	}
+
+	return mergedConfig
 }
 
 func (*Conf) mergeCommands(maps ...map[string]commandexecutor.CommandItem) map[string]commandexecutor.CommandItem {

@@ -30,6 +30,8 @@ func New(container godi.Container) *App {
 			internalconfig.DiBindings,
 			appconfig.ConsoleCommands,
 			internalconfig.ConsoleCommands,
+			appconfig.ViewFuncConfig,
+			internalconfig.ViewFuncConfig,
 		),
 	}
 
