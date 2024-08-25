@@ -395,7 +395,7 @@ func RegisterAction(v view.Viewer) string {
 - urlEscape (exapmle {{ urlEscape . }}) 
 - further to come
 
-## Adding custom functions
+## Adding custom functions for a particular view
 
 ```
 func yourFunc(str string) string {
@@ -408,6 +408,15 @@ funcMap := template.FuncMap{
 	}
 v.Funcs(funcMap)
 
+```
+
+### Adding custom function in config for all views
+
+```
+// app/config/view
+var ViewFuncConfig = template.FuncMap{
+	"myFuncName" = customfunctions.CustomFunction,
+}
 ```
 
 ## Return any text:
