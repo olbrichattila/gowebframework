@@ -35,6 +35,11 @@ func (c *Creator) Create(templateName, savePath string, data map[string]string) 
 		return fmt.Errorf("file name not provided")
 	}
 
+	err = c.createFolderIfNotExists(savePath)
+	if err != nil {
+		return fmt.Errorf("could not create directory")
+	}
+
 	fileName := fmt.Sprintf("%s/%s.go", savePath, commandName)
 	if _, err := os.Stat(fileName); err == nil {
 		return fmt.Errorf("file already exists")
@@ -84,5 +89,15 @@ func (*Creator) filterSpecialChars(s string) string {
 	re := regexp.MustCompile("[^a-zA-Z0-9]+")
 
 	return re.ReplaceAllString(s, "")
+}
 
+func (*Creator) createFolderIfNotExists(folderPath string) error {
+	if _, err := os.Stat(folderPath); os.IsNotExist(err) {
+		err := os.MkdirAll(folderPath, os.ModePerm)
+		return err
+	} else if err != nil {
+		return err
+	}
+
+	return nil
 }
