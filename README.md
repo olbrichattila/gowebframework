@@ -34,10 +34,12 @@ go run ./cmd/ artisan
 - create:command
 - create:controller
      possible flags: (-api, -rest -in= -out=). try -help for more details
+- create:event-consumer
 - create:job
      possible flags: (-in= -out=). try -help for more details
 - create:middleware
      possible flags: (-in= -out=). try -help for more details
+- create:view-function
 - list-commands
 ```
 ### create:command
