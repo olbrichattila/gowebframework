@@ -124,9 +124,7 @@ func ProductsAction(c config.Configer, db db.DBer, l logger.Logger, m mail.Maile
      return "", nil
 }
 ```
-
 ### Pre defined controller for API and CRUD
-
 ```
 go run ./cmd/ artisan create:controller products-api -api -in=config,db,logger,mail -out=string,error
 ```
@@ -213,9 +211,7 @@ func DestroyProductsCrudAction(c config.Configer, db db.DBer, l logger.Logger, m
      return "", nil
 }
 ```
-
 ### Mapping controllers to routes
-
 Add to: ```app/config/routes.go```
 
 ```
@@ -270,7 +266,6 @@ import (
 func ClearPaymentsJob(q queue.Quer) {
 }
 ```
-
 ### Schedule a Job
 
 Provide in seconds how frequently it should be triggered
@@ -323,6 +318,39 @@ func MyAction(e event.Eventer) string {
 	return "Event dispatched"
 }
 ```
+## Create view functions
+View functions are specific user defined functions which you can add to your views.
+Use them:
+
+```{{ myFunc . }}```
+
+Command to create:
+```
+go run ./cmd/ artisan create:view-function ucfirst
+```
+Creates something like:
+```
+package viewfunction
+
+// UcfirstViewFunction function can take and return any primitives string, int, int64, bool and more...
+func UcfirstViewFunction(s string) string {
+    return "TODO"
+}
+```
+
+Where you can implement your logic, for example Capitalize first character of the string and use like ```{{ ucFirst . }}```
+after registering the function name in ```app/config/view.go```
+
+```
+// don't forget to import viewfunction package at the top
+var ViewFuncConfig = template.FuncMap{
+	"ucFirst": viewfunction.UcfirstViewFunction,
+}
+```
+
+Please register your new command in:
+  app/config/view.go
+
 
 ## Migrations
 Install migrator
