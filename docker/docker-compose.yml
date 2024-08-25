@@ -37,7 +37,38 @@ services:
       - ./firebird_data/init_db.sh:/docker-entrypoint-initdb.d/init_db.sh:ro
       - firebird_data:/firebird
 
+  mailtrap:
+    image: maildev/maildev:latest
+    container_name: mailtrap
+    ports:
+      - "1080:1080"   # Web interface (Mailtrap UI)
+      - "1025:1025"   # SMTP port
+    environment:
+      - MAILDEV_INCOMING_USER=mailtrap
+      - MAILDEV_INCOMING_PASS=mailtrap
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+
+  memcached:
+    image: memcached:latest
+    container_name: memcached
+    ports:
+      - "11211:11211"
+    restart: unless-stopped
+    environment:
+      MEMCACHED_MEMORY: 64
+      MEMCACHED_MAX_CONNECTIONS: 1024
+
 volumes:
+  redis_data:
   mysql_data:
   postgres_data:
   firebird_data:
+  

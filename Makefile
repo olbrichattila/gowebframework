@@ -1,7 +1,18 @@
-db-recreate:
+db-sqlite-recreate:
 	@if [ -f ./database/database.sqlite ]; then rm ./database/database.sqlite; fi
 	csvimporter data.csv vehicles ";"
 	migrator migrate
+db-recreate:
+	csvimporter data.csv vehicles ";"
+	migrator refresh
+db-recreate-firebird:
+	csvimporter car_basemodel.csv car_basemodel
+	csvimporter car_fuel_type.csv car_fuel_type
+	csvimporter car_make.csv car_make
+	csvimporter car_model.csv car_model
+	csvimporter car_year.csv car_year
+	csvimporter data.csv vehicles ";"
+	migrator refresh
 switch-sqlite:
 	cp .env.sqlite.example .env.migrator
 	cp .env.sqlite.example .env.csvimporter
