@@ -691,6 +691,38 @@ func SendRegistrationEmail(q queue.Quer, m mail.Mailer, v view.Viewer, l logger.
 }
 ```
 
+## Validator:
+
+Example using of the validator, (new rules are coming soon, custom rules as well, will be able to automatically attach to request soon)
+```
+package controller
+
+import (
+	"fmt"
+	"framework/internal/app/session"
+	"framework/internal/app/validator"
+)
+
+funcMyControllerAction(s session.Sessioner, val validator.Validator) {
+	values := map[string]string{
+		"fieldName":  "33",
+		"fieldName2": "54",
+		"fieldName3": "hello",
+		"fieldName4": "hello,| world",
+		"fieldName5": "60",
+	}
+	rules := map[string]string{
+		"fieldName":  "min:5|max:80",
+		"fieldName2": "max:55",
+		"fieldName3": "in:a,bc,de,hello,bukk",
+		"fieldName4": `regex:^hello,\\|.*world$`,
+		"fieldName5": `between:10,50`,
+	}
+	ok, messages, validated := val.Validate(values, rules)
+	fmt.Printf("%v\n%v\n%v\n\n", ok, messages, validated)
+}
+```
+
 ## Bootstrapping the application
 ```
 // app/bootstrap.go

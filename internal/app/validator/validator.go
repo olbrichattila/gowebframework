@@ -2,6 +2,10 @@ package validator
 
 import "strings"
 
+const (
+	pipePlaceholder = "__PIPE__PLACEHOLDER__"
+)
+
 func New() Validator {
 	return &Validate{}
 }
@@ -30,8 +34,10 @@ func (v *Validate) Validate(fields map[string]string, rules map[string]string) (
 
 func (v *Validate) parse(val, pattern string) ([]string, bool) {
 	errorMessages := make([]string, 0)
+	pattern = strings.ReplaceAll(pattern, `\|`, pipePlaceholder)
 	patterns := strings.Split(pattern, "|")
 	for _, rule := range patterns {
+		rule = strings.ReplaceAll(rule, pipePlaceholder, "|")
 		if message, ok := v.parseRule(val, rule); !ok {
 			errorMessages = append(errorMessages, message)
 		}
