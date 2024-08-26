@@ -43,8 +43,13 @@ func (v *View) Construct(conf config.Configer) {
 	v.config = conf
 }
 
-func (v *View) RenderToFile(fileName string, templateFileName string, params any) error {
+func (v *View) RenderViewToFile(fileName string, templateFileName string, params any) error {
 	content := v.RenderView(templateFileName, params)
+	return v.toFile(fileName, content)
+}
+
+func (v *View) RenderToFile(fileName string, templateFileName string, params any) error {
+	content := v.Render(templateFileName, params)
 	return v.toFile(fileName, content)
 }
 
