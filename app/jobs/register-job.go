@@ -25,7 +25,7 @@ func SendRegistrationEmail(q queue.Quer, m mail.Mailer, v view.Viewer, l logger.
 		return
 	}
 
-	rendered := v.RenderMail([]string{"regconfirm.html"}, res)
+	rendered := v.RenderMail("regconfirm.html", res)
 	err = m.Send("attila@osoft.hu", email.(string), "Please confirm your email address", rendered)
 	if err != nil {
 		l.Error(err.Error())

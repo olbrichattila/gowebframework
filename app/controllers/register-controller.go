@@ -15,10 +15,6 @@ import (
 )
 
 func Register(v view.Viewer, s session.Sessioner) string {
-	templateFiles := []string{
-		"register.html",
-	}
-
 	data := map[string]string{
 		"regUserEmail": s.Get("regUserEmail"),
 		"regUserName":  s.Get("regUserName"),
@@ -27,7 +23,7 @@ func Register(v view.Viewer, s session.Sessioner) string {
 
 	s.Delete("lastError")
 
-	return v.Render(templateFiles, data)
+	return v.Render("register.html", data)
 }
 
 func PostRegister(r request.Requester, db db.DBer, sqlBuilder builder.Builder, s session.Sessioner, q queue.Quer) {

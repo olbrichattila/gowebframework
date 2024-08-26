@@ -21,6 +21,7 @@ func New(
 	internalCommands map[string]commandexecutor.CommandItem,
 	appViewConfig template.FuncMap,
 	internalViewConfig template.FuncMap,
+	templateAutoLoad []string,
 ) Configer {
 	return &Conf{
 		routes:             routes,
@@ -32,6 +33,7 @@ func New(
 		internalCommands:   internalCommands,
 		appViewConfig:      appViewConfig,
 		internalViewConfig: internalViewConfig,
+		templateAutoLoad:   templateAutoLoad,
 	}
 }
 
@@ -42,6 +44,7 @@ type Configer interface {
 	Jobs() []cron.Job
 	Middlewares() []interface{}
 	ViewConfig() template.FuncMap
+	GetTemplateAutoLoads() []string
 }
 
 type Conf struct {
@@ -54,6 +57,7 @@ type Conf struct {
 	internalCommands   map[string]commandexecutor.CommandItem
 	appViewConfig      template.FuncMap
 	internalViewConfig template.FuncMap
+	templateAutoLoad   []string
 }
 
 func (c *Conf) Routes() []router.ControllerAction {
@@ -87,6 +91,10 @@ func (c *Conf) ViewConfig() template.FuncMap {
 	}
 
 	return mergedConfig
+}
+
+func (c *Conf) GetTemplateAutoLoads() []string {
+	return c.templateAutoLoad
 }
 
 func (*Conf) mergeCommands(maps ...map[string]commandexecutor.CommandItem) map[string]commandexecutor.CommandItem {

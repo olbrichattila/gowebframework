@@ -36,11 +36,7 @@ func DisplayAllMakes(r request.Requester, db db.DBer, v view.Viewer, sqlBuilder 
 		return "", db.GetLastError()
 	}
 
-	templateFiles := []string{
-		"make.html",
-	}
-
-	return v.Render(templateFiles, report), nil
+	return v.Render("make.html", report), nil
 }
 
 func DisplayAllSubModels(r request.Requester, db db.DBer, v view.Viewer, sqlBuilder builder.Builder, s session.Sessioner) (string, error) {
@@ -69,11 +65,7 @@ func DisplayAllSubModels(r request.Requester, db db.DBer, v view.Viewer, sqlBuil
 		return "", db.GetLastError()
 	}
 
-	templateFiles := []string{
-		"basemodel.html",
-	}
-
-	return v.Render(templateFiles, report), nil
+	return v.Render("basemodel.html", report), nil
 }
 
 func DisplayAllModels(r request.Requester, db db.DBer, v view.Viewer, sqlBuilder builder.Builder, s session.Sessioner) (string, error) {
@@ -103,11 +95,7 @@ func DisplayAllModels(r request.Requester, db db.DBer, v view.Viewer, sqlBuilder
 		return "", db.GetLastError()
 	}
 
-	templateFiles := []string{
-		"model.html",
-	}
-
-	return v.Render(templateFiles, report), nil
+	return v.Render("model.html", report), nil
 }
 
 func DisplayAllFuelType(r request.Requester, db db.DBer, v view.Viewer, sqlBuilder builder.Builder, s session.Sessioner) (string, error) {
@@ -138,11 +126,7 @@ func DisplayAllFuelType(r request.Requester, db db.DBer, v view.Viewer, sqlBuild
 		return "", db.GetLastError()
 	}
 
-	templateFiles := []string{
-		"fuel_type.html",
-	}
-
-	return v.Render(templateFiles, report), nil
+	return v.Render("fuel_type.html", report), nil
 }
 
 func DisplayAllYear(r request.Requester, db db.DBer, v view.Viewer, sqlBuilder builder.Builder, s session.Sessioner) (string, error) {
@@ -174,11 +158,7 @@ func DisplayAllYear(r request.Requester, db db.DBer, v view.Viewer, sqlBuilder b
 		return "", db.GetLastError()
 	}
 
-	templateFiles := []string{
-		"year.html",
-	}
-
-	return v.Render(templateFiles, report), nil
+	return v.Render("year.html", report), nil
 }
 
 func DisplayVehicles(r request.Requester, db db.DBer, v view.Viewer, sqlBuilder builder.Builder, s session.Sessioner) (string, error) {
@@ -217,9 +197,5 @@ func DisplayVehicles(r request.Requester, db db.DBer, v view.Viewer, sqlBuilder 
 		return "", db.GetLastError()
 	}
 
-	templateFiles := []string{
-		"vehicles.html",
-	}
-
-	return v.Render(templateFiles, report), nil
+	return v.Render("vehicles.html", report), nil
 }

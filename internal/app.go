@@ -32,6 +32,7 @@ func New(container godi.Container) *App {
 			internalconfig.ConsoleCommands,
 			appconfig.ViewFuncConfig,
 			internalconfig.ViewFuncConfig,
+			appconfig.TemplateAutoLoad,
 		),
 	}
 

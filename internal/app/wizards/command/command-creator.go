@@ -29,7 +29,6 @@ func (c *Creator) Construct(a args.CommandArger, v view.Viewer) {
 }
 
 func (c *Creator) Create(templateName, savePath string, data map[string]string) error {
-	templateFiles := []string{templateName}
 	commandName, err := c.a.Get(0)
 	if err != nil {
 		return fmt.Errorf("file name not provided")
@@ -54,7 +53,7 @@ func (c *Creator) Create(templateName, savePath string, data map[string]string) 
 	}
 
 	c.v.NewPath("internal", "command-templates")
-	err = c.v.RenderToFile(fileName, templateFiles, mergedData)
+	err = c.v.RenderToFile(fileName, templateName, mergedData)
 	if err != nil {
 		return err
 	}

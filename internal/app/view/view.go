@@ -10,12 +10,13 @@ import (
 
 type Viewer interface {
 	Construct(config.Configer)
-	Render([]string, any) string
-	RenderMail([]string, any) string
+	Render(string, any) string
+	RenderMail(string, any) string
 	NewPath(...string)
-	RenderToFile(string, []string, any) error
-	RenderMailToFile(string, []string, any) error
+	RenderToFile(string, string, any) error
+	RenderMailToFile(string, string, any) error
 	Funcs(template.FuncMap) Viewer
+	LoadTemplateParts([]string) Viewer
 }
 
 func New() Viewer {
@@ -25,22 +26,23 @@ func New() Viewer {
 }
 
 type View struct {
-	config config.Configer
-	path   []string
-	funcs  template.FuncMap
+	config                   config.Configer
+	path                     []string
+	funcs                    template.FuncMap
+	extraTemplatesToAutoLoad []string
 }
 
 func (v *View) Construct(conf config.Configer) {
 	v.config = conf
 }
 
-func (v *View) RenderToFile(fileName string, templates []string, params any) error {
-	content := v.Render(templates, params)
+func (v *View) RenderToFile(fileName string, templateFileName string, params any) error {
+	content := v.Render(templateFileName, params)
 	return v.toFile(fileName, content)
 }
 
-func (v *View) RenderMailToFile(fileName string, templates []string, params any) error {
-	content := v.RenderMail(templates, params)
+func (v *View) RenderMailToFile(fileName string, templateFileName string, params any) error {
+	content := v.RenderMail(templateFileName, params)
 	return v.toFile(fileName, content)
 }
 
@@ -59,12 +61,20 @@ func (v *View) toFile(fileName, content string) error {
 	return nil
 }
 
-func (v *View) Render(templates []string, params any) string {
-	if len(templates) == 0 {
+func (v *View) Render(templateFileName string, params any) string {
+
+	if len(templateFileName) == 0 {
 		return ""
 	}
+	templates := []string{templateFileName}
+	if v.extraTemplatesToAutoLoad != nil {
+		templates = append(templates, v.extraTemplatesToAutoLoad...)
+	}
+
+	templates = append(templates, v.config.GetTemplateAutoLoads()...)
 
 	paths := v.addPath(templates)
+
 	funcs := v.mergeFuncMap()
 	tmpl, err := template.New("example").Funcs(funcs).ParseFiles(paths...)
 	if err != nil {
@@ -78,20 +88,26 @@ func (v *View) Render(templates []string, params any) string {
 		return err.Error()
 	}
 	v.funcs = make(template.FuncMap, 0)
+	v.extraTemplatesToAutoLoad = nil
 
 	// Return the rendered template as a string
 	return buf.String()
 }
 
-func (v *View) RenderMail(templates []string, params any) string {
+func (v *View) RenderMail(templateFileName string, params any) string {
 	v.NewPath("app", "mails")
-	result := v.Render(templates, params)
+	result := v.Render(templateFileName, params)
 	v.NewPath("app", "views")
 	return result
 }
 
 func (v *View) Funcs(fm template.FuncMap) Viewer {
 	v.funcs = fm
+	return v
+}
+
+func (v *View) LoadTemplateParts(templates []string) Viewer {
+	v.extraTemplatesToAutoLoad = templates
 	return v
 }
 

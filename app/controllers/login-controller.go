@@ -13,17 +13,13 @@ import (
 )
 
 func Login(v view.Viewer, s session.Sessioner) string {
-	templateFiles := []string{
-		"login.html",
-	}
-
 	data := map[string]string{
 		"email":     s.Get("loginUserId"),
 		"lastError": s.Get("lastError"),
 	}
 	s.Delete("lastError")
 
-	return v.Render(templateFiles, data)
+	return v.Render("login.html", data)
 }
 
 func LoginPost(r request.Requester, db db.DBer, sqlBuilder builder.Builder, s session.Sessioner, l logger.Logger) {
