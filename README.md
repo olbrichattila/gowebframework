@@ -713,14 +713,25 @@ var DiBindings = []config.DiCallback{
 ```
 ## .env variables
 ```
+## redis
 REDIS_SERVER_HOST=localhost
+
+## memcace
 MEMCACHE_HOST=localhost
 
+## mail
+SMTP_USER_NAME=mailtrap
+SMTP_PASSWORD=mailtrap
+SMTP_HOST=localhost
+SMTP_PORT=1025
+
+## Session storage
 SESSION_STORAGE=file
 SESSION_STORAGE=redis
 SESSION_STORAGE=db
 SESSION_STORAGE=memcached
 
+## Logger storage
 LOGGER_STORAGE=file
 LOGGER_STORAGE=redis
 LOGGER_STORAGE=db
