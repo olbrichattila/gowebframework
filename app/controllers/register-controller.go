@@ -23,7 +23,7 @@ func Register(v view.Viewer, s session.Sessioner) string {
 
 	s.Delete("lastError")
 
-	return v.Render("register.html", data)
+	return v.RenderView("register.html", data)
 }
 
 func PostRegister(r request.Requester, db db.DBer, sqlBuilder builder.Builder, s session.Sessioner, q queue.Quer) {

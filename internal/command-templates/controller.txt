@@ -86,7 +86,7 @@ func TestAction5(r request.Requester, v view.Viewer) string {
 		Content: template.HTML(`<strong>This is the main content of the page.</strong>`),
 	}
 
-	return v.Render(templateFiles, data)
+	return v.RenderView(templateFiles, data)
 }
 
 type Request = struct {
@@ -194,5 +194,5 @@ func TestAction8(r request.Requester, db db.DBer, v view.Viewer, sqlBuilder buil
 		"brands.html",
 	}
 
-	return v.Render(templateFiles, report), nil
+	return v.RenderView(templateFiles, report), nil
 }

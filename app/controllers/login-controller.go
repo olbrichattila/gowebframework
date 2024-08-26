@@ -19,7 +19,7 @@ func Login(v view.Viewer, s session.Sessioner) string {
 	}
 	s.Delete("lastError")
 
-	return v.Render("login.html", data)
+	return v.RenderView("login.html", data)
 }
 
 func LoginPost(r request.Requester, db db.DBer, sqlBuilder builder.Builder, s session.Sessioner, l logger.Logger) {

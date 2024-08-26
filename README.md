@@ -354,6 +354,35 @@ Please register your new command in:
   app/config/view.go
 
 
+## Map view partials to auto load:
+If a view use a partial it should be auto-loaded.
+We have two categories, View and Mail.
+If you use the ```v.RenderMail``` it will load the mail partials, if you use the ```v.RenderView``` it will load the configured view partials:
+Using simple ```v.Render``` will not load any view, but you can add any custom view for that specific render with: ```LoadTemplateParts```
+Example:
+
+```
+templateFiles := []string{
+		"register.html",
+		"templates/mypartial.html",
+	}
+
+v.LoadTemplateParts()
+```
+
+The configuration for view partial auto-load:
+```
+// app/config/view-autoload.go
+var TemplateAutoLoad = map[string][]string{
+	view.ViewTypeHTML: {
+		"template/head.html",
+		"template/header.html",
+		"template/footer.html",
+	},
+	view.ViewTypeEmail: {},
+}
+```
+
 ## Migrations
 Install migrator
 ```
@@ -417,7 +446,7 @@ func RegisterAction(v view.Viewer) string {
 	}
 
     //  v.Render will return the rendered template which is in your app/views folder
-	return v.Render(templateFiles, data)
+	return v.RenderView(templateFiles, data)
 }
 ```
 

@@ -10,5 +10,5 @@ func DisplayError(v view.Viewer, s session.Sessioner) string {
 		"lastError": s.Get("lastError"),
 	}
 
-	return v.Render("error.html", data)
+	return v.RenderView("error.html", data)
 }

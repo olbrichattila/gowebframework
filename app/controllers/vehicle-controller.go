@@ -36,7 +36,7 @@ func DisplayAllMakes(r request.Requester, db db.DBer, v view.Viewer, sqlBuilder 
 		return "", db.GetLastError()
 	}
 
-	return v.Render("make.html", report), nil
+	return v.RenderView("make.html", report), nil
 }
 
 func DisplayAllSubModels(r request.Requester, db db.DBer, v view.Viewer, sqlBuilder builder.Builder, s session.Sessioner) (string, error) {
@@ -65,7 +65,7 @@ func DisplayAllSubModels(r request.Requester, db db.DBer, v view.Viewer, sqlBuil
 		return "", db.GetLastError()
 	}
 
-	return v.Render("basemodel.html", report), nil
+	return v.RenderView("basemodel.html", report), nil
 }
 
 func DisplayAllModels(r request.Requester, db db.DBer, v view.Viewer, sqlBuilder builder.Builder, s session.Sessioner) (string, error) {
@@ -95,7 +95,7 @@ func DisplayAllModels(r request.Requester, db db.DBer, v view.Viewer, sqlBuilder
 		return "", db.GetLastError()
 	}
 
-	return v.Render("model.html", report), nil
+	return v.RenderView("model.html", report), nil
 }
 
 func DisplayAllFuelType(r request.Requester, db db.DBer, v view.Viewer, sqlBuilder builder.Builder, s session.Sessioner) (string, error) {
@@ -126,7 +126,7 @@ func DisplayAllFuelType(r request.Requester, db db.DBer, v view.Viewer, sqlBuild
 		return "", db.GetLastError()
 	}
 
-	return v.Render("fuel_type.html", report), nil
+	return v.RenderView("fuel_type.html", report), nil
 }
 
 func DisplayAllYear(r request.Requester, db db.DBer, v view.Viewer, sqlBuilder builder.Builder, s session.Sessioner) (string, error) {
@@ -158,7 +158,7 @@ func DisplayAllYear(r request.Requester, db db.DBer, v view.Viewer, sqlBuilder b
 		return "", db.GetLastError()
 	}
 
-	return v.Render("year.html", report), nil
+	return v.RenderView("year.html", report), nil
 }
 
 func DisplayVehicles(r request.Requester, db db.DBer, v view.Viewer, sqlBuilder builder.Builder, s session.Sessioner) (string, error) {
@@ -197,5 +197,5 @@ func DisplayVehicles(r request.Requester, db db.DBer, v view.Viewer, sqlBuilder 
 		return "", db.GetLastError()
 	}
 
-	return v.Render("vehicles.html", report), nil
+	return v.RenderView("vehicles.html", report), nil
 }

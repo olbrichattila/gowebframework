@@ -119,13 +119,14 @@ button:hover {
     color: #868686;
 }
 
-.link a {
+a.link {
     color: #339933;
     text-decoration: none;
 }
 
-.link a:hover {
+a.link:hover {
     text-decoration: underline;
+    font-weight: 800;
 }
 
 .error {
@@ -174,4 +175,16 @@ table tr td {
 .highlight {
     font-weight: 800;
     color: #339933;
+}
+
+footer {
+    background-color: white;
+    color: black;
+    font-weight: 800;
+    font-size: 1.2em;
+    display: block;
+    position: fixed;
+    left: 0;
+    width: 100%;
+    bottom: 0;
 }

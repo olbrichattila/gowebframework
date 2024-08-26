@@ -8,9 +8,15 @@ import (
 	"text/template"
 )
 
+const (
+	ViewTypeHTML  = "view"
+	ViewTypeEmail = "mail"
+)
+
 type Viewer interface {
 	Construct(config.Configer)
 	Render(string, any) string
+	RenderView(string, any) string
 	RenderMail(string, any) string
 	NewPath(...string)
 	RenderToFile(string, string, any) error
@@ -30,6 +36,7 @@ type View struct {
 	path                     []string
 	funcs                    template.FuncMap
 	extraTemplatesToAutoLoad []string
+	viewType                 string
 }
 
 func (v *View) Construct(conf config.Configer) {
@@ -37,7 +44,7 @@ func (v *View) Construct(conf config.Configer) {
 }
 
 func (v *View) RenderToFile(fileName string, templateFileName string, params any) error {
-	content := v.Render(templateFileName, params)
+	content := v.RenderView(templateFileName, params)
 	return v.toFile(fileName, content)
 }
 
@@ -61,8 +68,17 @@ func (v *View) toFile(fileName, content string) error {
 	return nil
 }
 
-func (v *View) Render(templateFileName string, params any) string {
+func (v *View) RenderView(templateFileName string, params any) string {
+	v.viewType = ViewTypeHTML
+	return v.renderTemplate(templateFileName, params)
+}
 
+func (v *View) Render(templateFileName string, params any) string {
+	v.viewType = ""
+	return v.renderTemplate(templateFileName, params)
+}
+
+func (v *View) renderTemplate(templateFileName string, params any) string {
 	if len(templateFileName) == 0 {
 		return ""
 	}
@@ -71,7 +87,12 @@ func (v *View) Render(templateFileName string, params any) string {
 		templates = append(templates, v.extraTemplatesToAutoLoad...)
 	}
 
-	templates = append(templates, v.config.GetTemplateAutoLoads()...)
+	if v.viewType != "" {
+		templateAutoLoads := v.config.GetTemplateAutoLoads()
+		if templateConfig, ok := templateAutoLoads[v.viewType]; ok {
+			templates = append(templates, templateConfig...)
+		}
+	}
 
 	paths := v.addPath(templates)
 
@@ -96,7 +117,8 @@ func (v *View) Render(templateFileName string, params any) string {
 
 func (v *View) RenderMail(templateFileName string, params any) string {
 	v.NewPath("app", "mails")
-	result := v.Render(templateFileName, params)
+	v.viewType = ViewTypeEmail
+	result := v.renderTemplate(templateFileName, params)
 	v.NewPath("app", "views")
 	return result
 }

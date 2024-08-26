@@ -3,17 +3,11 @@
 <html lang="en" dir="ltr">
 
 <head>
-    <meta charset="utf-8">
-    <title>Golang Web Framework</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
-    <link rel="stylesheet" href="/static/css/styles.css">
+{{template "head.html" .}}
 </head>
 
 <body>
-    <div class="header">
-        <label>Sub Model</label>
-        <a class="button" href="/logout">Logout</a>
-    </div>
+    {{template "header.html" .}}
     <div class="content">
         <a class="button" href="/">New Search</a><br /><br />
         <table>
@@ -33,5 +27,6 @@
             </tbody>
         </table>
     </div>
+    {{template "footer.html" .}}
 </body>
 </html>
