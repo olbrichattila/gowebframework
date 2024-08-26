@@ -15,6 +15,7 @@ import (
 	"framework/internal/app/request"
 	"framework/internal/app/router"
 	"framework/internal/app/session"
+	"framework/internal/app/validator"
 	"framework/internal/app/view"
 	wizard "framework/internal/app/wizards/class"
 	commandcreator "framework/internal/app/wizards/command"
@@ -63,6 +64,9 @@ var DiBindings = []config.DiCallback{
 	},
 	func(di godi.Container) (string, interface{}, error) {
 		return "internal.app.request.Requester", request.New(), nil
+	},
+	func(di godi.Container) (string, interface{}, error) {
+		return "internal.app.validator.Validator", validator.New(), nil
 	},
 	func(di godi.Container) (string, interface{}, error) {
 		return "internal.app.db.DBFactoryer", db.NewDBFactory(), nil
