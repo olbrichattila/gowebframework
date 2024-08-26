@@ -433,11 +433,6 @@ s.RemoveSession()
 Example in controller:
 ```
 func RegisterAction(v view.Viewer) string {
-    // Template files, multiple can be added if the template have internal template imports
-	templateFiles := []string{
-		"register.html",
-	}
-
     // Data passing to the template
 	data := map[string]string{
 		"regUserEmail": s.Get("regUserEmail"),
@@ -446,7 +441,7 @@ func RegisterAction(v view.Viewer) string {
 	}
 
     //  v.Render will return the rendered template which is in your app/views folder
-	return v.RenderView(templateFiles, data)
+	return v.RenderView("register.html", data)
 }
 ```
 
