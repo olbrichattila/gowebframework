@@ -652,6 +652,19 @@ Flush()
 Dispatch(topic, payload string)
 ```
 
+## Cache:
+The cache module caches string results, can be used with closure or using methods on cache instance.
+Example:
+```
+
+func youFunc(...., c cache.Cacher) {
+
+	cached := c.Cache("models", func(_ ...interface{}) string {
+		return v.RenderView("make.html", report)
+	}), nil
+}
+```
+
 ## Mailer
 Example send registration main from consuming a queue event published by a user registration
 ```

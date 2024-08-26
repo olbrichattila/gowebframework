@@ -15,6 +15,8 @@ import (
 type DBer interface {
 	// Construct(DBFactoryer, logger.Logger)
 	Construct(DBFactoryer)
+	LowerCaseResult()
+	OriginalCaseResult()
 	Open()
 	Close()
 	QueryAll(string, ...any) <-chan map[string]interface{}
@@ -25,13 +27,16 @@ type DBer interface {
 
 type DB struct {
 	// l         logger.Logger
-	db        *sql.DB
-	dbConfig  DBConfiger
-	lastError error
+	lowerCaseResult bool
+	db              *sql.DB
+	dbConfig        DBConfiger
+	lastError       error
 }
 
 func New() DBer {
-	db := &DB{}
+	db := &DB{
+		lowerCaseResult: true,
+	}
 	runtime.SetFinalizer(db, func(db *DB) {
 		db.Cleanup()
 	})
@@ -59,6 +64,14 @@ func (d *DB) Construct(dbConfig DBFactoryer) {
 	}
 
 	d.Open()
+}
+
+func (d *DB) LowerCaseResult() {
+	d.lowerCaseResult = true
+}
+
+func (d *DB) OriginalCaseResult() {
+	d.lowerCaseResult = false
 }
 
 func (d *DB) Cleanup() {
@@ -128,6 +141,9 @@ func (d *DB) QueryAll(sql string, pars ...any) <-chan map[string]interface{} {
 			}
 			result := make(map[string]interface{}, colCount)
 			for i, colName := range cols {
+				if d.lowerCaseResult {
+					colName = strings.ToLower(colName)
+				}
 				value := *(row[i].(*interface{}))
 
 				switch v := value.(type) {
@@ -189,6 +205,9 @@ func (d *DB) QueryOne(sql string, pars ...any) (map[string]interface{}, error) {
 
 	result := make(map[string]interface{}, colCount)
 	for i, colName := range cols {
+		if d.lowerCaseResult {
+			colName = strings.ToLower(colName)
+		}
 		value := *(row[i].(*interface{}))
 		switch v := value.(type) {
 		case string:

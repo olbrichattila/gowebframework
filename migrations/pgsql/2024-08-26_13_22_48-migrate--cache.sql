@@ -1,4 +1,4 @@
-CREATE TABLE logs (
+CREATE TABLE caches (
     id SERIAL PRIMARY KEY,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     expires_at TIMESTAMP,

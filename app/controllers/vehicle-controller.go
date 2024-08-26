@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"framework/internal/app/cache"
 	"framework/internal/app/db"
 	"framework/internal/app/request"
 	"framework/internal/app/session"
@@ -11,7 +12,7 @@ import (
 	builder "github.com/olbrichattila/gosqlbuilder/pkg"
 )
 
-func DisplayAllMakes(r request.Requester, db db.DBer, v view.Viewer, sqlBuilder builder.Builder, s session.Sessioner) (string, error) {
+func DisplayAllMakes(r request.Requester, db db.DBer, v view.Viewer, sqlBuilder builder.Builder, s session.Sessioner, c cache.Cacher) (string, error) {
 	defer db.Close()
 
 	sqlBuilder.Select("car_make").
@@ -36,7 +37,9 @@ func DisplayAllMakes(r request.Requester, db db.DBer, v view.Viewer, sqlBuilder 
 		return "", db.GetLastError()
 	}
 
-	return v.RenderView("make.html", report), nil
+	return c.Cache("models", func(_ ...interface{}) string {
+		return v.RenderView("make.html", report)
+	}), nil
 }
 
 func DisplayAllSubModels(r request.Requester, db db.DBer, v view.Viewer, sqlBuilder builder.Builder, s session.Sessioner) (string, error) {

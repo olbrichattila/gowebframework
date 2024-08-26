@@ -2,6 +2,7 @@ package internalconfig
 
 import (
 	"framework/internal/app/args"
+	"framework/internal/app/cache"
 	commandexecutor "framework/internal/app/command"
 	"framework/internal/app/config"
 	"framework/internal/app/cron"
@@ -86,6 +87,15 @@ var DiBindings = []config.DiCallback{
 		session, err := di.Get(session.New())
 		return "internal.app.session.Sessioner", session, err
 	},
+
+	func(di godi.Container) (string, interface{}, error) {
+		return "internal.app.cache.CacheStorageResolver", cache.NewCacheStorageResolver(), nil
+	},
+	func(di godi.Container) (string, interface{}, error) {
+		session, err := di.Get(cache.New())
+		return "internal.app.cache.Cacher", session, err
+	},
+
 	func(di godi.Container) (string, interface{}, error) {
 		return "internal.app.cron.JobTimer", cron.New(), nil
 	},

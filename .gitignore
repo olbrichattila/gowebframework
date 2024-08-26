@@ -3,3 +3,5 @@ sessions/*
 !sessions/.gitkeep
 log/*
 !log/.gitkeep
+cache/*
+!cache/.gitkeep

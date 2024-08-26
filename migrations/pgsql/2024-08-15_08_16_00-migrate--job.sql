@@ -4,5 +4,5 @@ CREATE TABLE jobs (
     name VARCHAR(255) NOT NULL,
     topic VARCHAR(255) NULL,
     is_visible BOOLEAN NOT NULL DEFAULT TRUE,
-    message VARCHAR(255) NOT NULL
+    message BYTEA
 )

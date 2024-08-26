@@ -2,6 +2,7 @@ package session
 
 import (
 	"encoding/json"
+	"fmt"
 	"framework/internal/app/logger"
 	"framework/internal/app/storage"
 	"log"
@@ -193,6 +194,7 @@ func (s *Session) RemoveSession() {
 }
 
 func (s *Session) logError(e error) {
+	fmt.Println(e)
 	if s.l != nil {
 		s.l.Error(e.Error())
 	}

@@ -4,5 +4,5 @@ CREATE TABLE jobs (
     name VARCHAR(255) NOT NULL,
     topic VARCHAR(255) NULL,
     is_visible TINYINT(1) NOT NULL DEFAULT 1,
-    message VARCHAR(255) NOT NULL
+    message BLOB
 )

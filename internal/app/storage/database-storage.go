@@ -51,6 +51,7 @@ func (s *DbStore) Delete(key string) error {
 }
 
 func (s *DbStore) HasKey(key string) (bool, error) {
+
 	sql, err := s.sqlBuilder.Select(s.tablename).RawFields("count(*) as db").Where("name", "=", key).AsSQL()
 	if err != nil {
 		return false, err
@@ -60,6 +61,7 @@ func (s *DbStore) HasKey(key string) (bool, error) {
 	if err != nil {
 		return false, err
 	}
+
 	if message, ok := row["db"]; ok {
 		if message.(int64) > 0 {
 			return true, nil
@@ -67,7 +69,7 @@ func (s *DbStore) HasKey(key string) (bool, error) {
 
 		return false, nil
 	}
-	return false, fmt.Errorf("unknown session fetch error, field message missing from response")
+	return false, fmt.Errorf("unknown session fetch error, field DB missing from response")
 }
 
 func (s *DbStore) Get(key string) (string, error) {
