@@ -44,6 +44,31 @@ var Routes = []router.ControllerAction{
 		Fn:          controller.DisplayError,
 	},
 	{
+		Path:        "/password-reminder",
+		RequestType: http.MethodGet,
+		Fn:          controller.PasswordReminderControllerAction,
+	},
+	{
+		Path:        "/password-reminder",
+		RequestType: http.MethodPost,
+		Fn:          controller.PasswordReminderPostControllerAction,
+	},
+	{
+		Path:        "/reminder-sent",
+		RequestType: http.MethodGet,
+		Fn:          controller.PasswordReminderSentControllerAction,
+	},
+	{
+		Path:        "/change_password",
+		RequestType: http.MethodGet,
+		Fn:          controller.PasswordChangeControllerAction,
+	},
+	{
+		Path:        "/change_password",
+		RequestType: http.MethodPost,
+		Fn:          controller.PasswordChangePostControllerAction,
+	},
+	{
 		Path:        "/",
 		RequestType: http.MethodGet,
 		Fn:          controller.DisplayAllMakes,
