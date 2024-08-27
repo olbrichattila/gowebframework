@@ -1,6 +1,7 @@
 // Package app
 package app
 
+// TODO: Refactor, split up, getting too big
 import (
 	"encoding/json"
 	"fmt"
@@ -12,9 +13,12 @@ import (
 	"framework/internal/app/env"
 	"framework/internal/app/request"
 	"framework/internal/app/router"
+	"framework/internal/app/session"
+	"framework/internal/app/validator"
 	internalconfig "framework/internal/internal-config"
 	"net/http"
 	"reflect"
+	"strings"
 
 	"github.com/olbrichattila/godi"
 )
@@ -102,13 +106,13 @@ type hTTPHandler struct {
 
 func (h *hTTPHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	routes := h.app.conf.Routes()
-	dep, err := h.app.di.GetDependency("internal.app.request.Requester")
-	if err == nil {
-		if req, ok := dep.(request.Requester); ok {
-			req.SetRequest(r)
-		}
-
+	customValidator := h.getValidatorFromDi()
+	session := h.getSessionerFromDi()
+	req := h.getRequestFromDi()
+	if req != nil {
+		req.SetRequest(r)
 	}
+
 	h.app.di.Set("http.ResponseWriter", w)
 	for _, middleware := range h.app.conf.Middlewares() {
 		res, err := h.app.di.Call(middleware)
@@ -124,13 +128,13 @@ func (h *hTTPHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	for _, action := range routes {
 		match, routePars := h.app.router.Match(action.Path, r.RequestURI)
-		// if action.Path == r.URL.Path {
+
 		if match {
 			if action.RequestType != r.Method {
 				continue
 			}
 
-			if req, ok := dep.(request.Requester); ok {
+			if req != nil {
 				req.SetRouteParameters(routePars)
 			}
 
@@ -146,6 +150,48 @@ func (h *hTTPHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 				}
 			}
 
+			// Route validator logic
+			if action.ValidationRules != "" {
+				errorMessage := ""
+				isValid := true
+				if rule, ok := appconfig.RouteValidationRules[action.ValidationRules]; ok {
+
+					if customValidator != nil {
+						allRequests := req.AllFlat()
+						if rule.Rules != nil {
+
+							ok, errors, _ := customValidator.Validate(allRequests, rule.Rules)
+							if !ok {
+								errorMessage = strings.Join(errors, "<br />")
+								isValid = false
+							}
+						}
+
+						if rule.CustomRule != nil {
+							if message, ok := rule.CustomRule(allRequests); !ok {
+								if errorMessage != "" {
+									errorMessage = errorMessage + "<br />"
+								}
+								errorMessage = errorMessage + message
+								isValid = false
+							}
+						}
+
+						if !isValid {
+							if session != nil {
+								session.Set("lastError", errorMessage)
+							}
+
+							if rule.Redirect != "" {
+								http.Redirect(w, r, rule.Redirect, http.StatusSeeOther)
+								return
+							}
+						}
+					}
+				}
+			}
+
+			// This is the main controller call
 			result, err := h.app.di.Call(action.Fn)
 			if err != nil {
 				w.WriteHeader(http.StatusInternalServerError)
@@ -190,4 +236,37 @@ func (h *hTTPHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 
 	http.NotFound(w, r)
+}
+
+func (h *hTTPHandler) getRequestFromDi() request.Requester {
+	dep, err := h.app.di.GetDependency("internal.app.request.Requester")
+	if err == nil {
+		if req, ok := dep.(request.Requester); ok {
+			return req
+		}
+	}
+
+	return nil
+}
+
+func (h *hTTPHandler) getValidatorFromDi() validator.Validator {
+	dep, err := h.app.di.GetDependency("internal.app.validator.Validator")
+	if err == nil {
+		if req, ok := dep.(validator.Validator); ok {
+			return req
+		}
+	}
+
+	return nil
+}
+
+func (h *hTTPHandler) getSessionerFromDi() session.Sessioner {
+	dep, err := h.app.di.GetDependency("internal.app.session.Sessioner")
+	if err == nil {
+		if req, ok := dep.(session.Sessioner); ok {
+			return req
+		}
+	}
+
+	return nil
 }

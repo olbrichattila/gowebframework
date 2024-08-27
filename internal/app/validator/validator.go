@@ -1,6 +1,8 @@
 package validator
 
-import "strings"
+import (
+	"strings"
+)
 
 const (
 	pipePlaceholder = "__PIPE__PLACEHOLDER__"
@@ -22,7 +24,7 @@ func (v *Validate) Validate(fields map[string]string, rules map[string]string) (
 	validationErrors := make([]string, 0)
 	for field, rule := range rules {
 		fieldValue := fields[field]
-		if message, ok := v.parse(fieldValue, rule); ok {
+		if message, ok := v.parse(field, fieldValue, rule); ok {
 			valid[field] = fieldValue
 		} else {
 			validationErrors = append(validationErrors, message...)
@@ -32,13 +34,16 @@ func (v *Validate) Validate(fields map[string]string, rules map[string]string) (
 	return len(validationErrors) == 0, validationErrors, valid
 }
 
-func (v *Validate) parse(val, pattern string) ([]string, bool) {
+func (v *Validate) parse(fieldName, val, pattern string) ([]string, bool) {
 	errorMessages := make([]string, 0)
 	pattern = strings.ReplaceAll(pattern, `\|`, pipePlaceholder)
 	patterns := strings.Split(pattern, "|")
 	for _, rule := range patterns {
 		rule = strings.ReplaceAll(rule, pipePlaceholder, "|")
 		if message, ok := v.parseRule(val, rule); !ok {
+			if message != "" {
+				message = fieldName + ": " + message
+			}
 			errorMessages = append(errorMessages, message)
 		}
 	}

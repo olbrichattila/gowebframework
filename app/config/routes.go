@@ -29,9 +29,10 @@ var Routes = []router.ControllerAction{
 		Fn:          controller.Register,
 	},
 	{
-		Path:        "/doregister",
-		RequestType: http.MethodPost,
-		Fn:          controller.PostRegister,
+		Path:            "/doregister",
+		RequestType:     http.MethodPost,
+		Fn:              controller.PostRegister,
+		ValidationRules: "register",
 	},
 	{
 		Path:        "/confirm",

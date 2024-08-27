@@ -7,10 +7,11 @@ import (
 )
 
 type ControllerAction struct {
-	Path        string
-	RequestType string
-	Fn          interface{}
-	Middlewares []any
+	Path            string
+	RequestType     string
+	Fn              interface{}
+	Middlewares     []any
+	ValidationRules string
 }
 
 type Router interface {

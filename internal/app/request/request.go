@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"io"
 	"net/http"
+	"strconv"
 )
 
 // TODO add JsonBody, passing a struct, and receiving back unmarshalled
@@ -16,6 +17,7 @@ type Requester interface {
 	GetOne(string, string) string
 	PostOne(string, string) string
 	All() map[string][]string
+	AllFlat() map[string]string
 	AllOne(string, string) string
 	Body() string
 	JSONBody() map[string]interface{}
@@ -102,6 +104,22 @@ func (r *Request) All() map[string][]string {
 	}
 
 	return res
+}
+
+func (r *Request) AllFlat() map[string]string {
+	result := make(map[string]string)
+	all := r.All()
+	for key, values := range all {
+		if len(values) == 1 {
+			result[key] = values[0]
+			continue
+		}
+		for i, value := range values {
+			result[key+"["+strconv.Itoa(i)+"]"] = value
+		}
+	}
+
+	return result
 }
 
 func (r *Request) AllOne(par, def string) string {

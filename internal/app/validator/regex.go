@@ -20,5 +20,5 @@ func regexRule(val string, pars ...string) (string, bool) {
 		return "", true
 	}
 
-	return fmt.Sprintf("The value %s does not match expression %s", val, pattern), false
+	return fmt.Sprintf("the value does not match expression %s", pattern), false
 }

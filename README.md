@@ -741,6 +741,47 @@ Current validation rules:
 - boolean
 - json
 
+## Route validation
+
+You can set route level validation rules. 
+
+Example:
+```ValidationRules: "rule-name",```
+This is not mandatory to set on the route, if not set, no validation, but you are free to use validator in your controller individually
+```
+// in your route configuration:
+	{
+		Path:            "/doregister",
+		RequestType:     http.MethodPost,
+		Fn:              controller.PostRegister,
+		ValidationRules: "register",
+	},
+```
+
+In your validator config
+- Redirect (not mandatory, if you set on failure it will redirect here, if not set then it will continue calling your controller action)
+- Rules (non mandatory, if not set, no validation takes place using validator class)
+- CustomRule (non mandatory. This is a function ```func(fields map[string]string) (string, bool) {}```. If  you set then you receive the parameters (post, get, route as well) in a map, you return a validation error message, and bool for OK or not )
+
+
+```
+// app/config/route-validation-rules.go
+var RouteValidationRules = map[string]ValidationRule{
+	"register": {
+		Redirect: "/register",
+		Rules: map[string]string{
+			"password": "minSize:6|maxSize:255",
+			"name":     "minSize:6|maxSize:255",
+			"email":    "email",
+		},
+		CustomRule: func(fields map[string]string) (string, bool) { return "not good " + fmt.Sprintf("%v", fields), false },
+	},
+}
+```
+
+If you are using this route validation, errors will be stored in session ```lastError``` and can be displayed on the page, or json as your choice from getting it from the session.
+
+
 ## Bootstrapping the application
 ```
 // app/bootstrap.go

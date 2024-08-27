@@ -6,7 +6,7 @@ import (
 
 func requiredRule(val string, _ ...string) (string, bool) {
 	if len(strings.TrimSpace(val)) == 0 {
-		return "required", false
+		return "is required", false
 	}
 
 	return "", true

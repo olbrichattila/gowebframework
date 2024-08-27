@@ -19,4 +19,6 @@ var ruleMap = map[string]ruleFunc{
 	"dateTime": dateTimeRule,
 	"boolean":  booleanRule,
 	"json":     jsonRule,
+	"minSize":  minSizeRule,
+	"maxSize":  maxSizeRule,
 }

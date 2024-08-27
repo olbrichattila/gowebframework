@@ -5,7 +5,7 @@ import (
 	"strconv"
 )
 
-func sizeRule(val string, pars ...string) (string, bool) {
+func maxSizeRule(val string, pars ...string) (string, bool) {
 	if len(pars) != 1 {
 		return "requires 1 numeric parameter like size:1", false
 	}
@@ -15,9 +15,9 @@ func sizeRule(val string, pars ...string) (string, bool) {
 		return "The value comparing must be a number", false
 	}
 
-	if len(val) == a {
+	if len(val) <= a {
 		return "", true
 	}
 
-	return fmt.Sprintf("is not %d long", a), false
+	return fmt.Sprintf("must be shorter then %d", a), false
 }

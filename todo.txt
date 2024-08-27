@@ -17,7 +17,9 @@
 // add more customizable routes
 // add cofing containing folrers, what view should auto render like /templates so it is easier to swap the slice[... templatefiles] to replace with a simple template file. 
 // add Caching / html template and generic, use file, redis, db memcache drivers
-add Validator, maybe combine with request, and possibility to validate in middleware and redirect, + store in session the fields validated to reuse
+// add Validator, maybe combine with request, and possibility to validate in middleware and redirect, + store in session the fields validated to reuse
+add custom validator class and an artisan command to generate
+consider adding 'lastError' or validation error (if changes) automatically to view render
 add File Storage (S3, and other) 
 add .conf.yml (include in config to fetch)
 add migrator as internal command, so we can get rid of .env.migrator
@@ -57,7 +59,8 @@ add DB seeder
 add Multi file uploading
 add simple support to add ReactJs
 add More view default func like auto route generator, whatever
-add built in csv 
+add built in csv manager
+add built in file downloader
 add JWT 
 
 Todo full code cleanup, add tests

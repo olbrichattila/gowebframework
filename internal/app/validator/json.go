@@ -2,7 +2,6 @@ package validator
 
 import (
 	"encoding/json"
-	"fmt"
 )
 
 func jsonRule(val string, _ ...string) (string, bool) {
@@ -11,5 +10,5 @@ func jsonRule(val string, _ ...string) (string, bool) {
 		return "", true
 	}
 
-	return fmt.Sprintf("%s not in an JSON", val), false
+	return "not valid JSON", false
 }
