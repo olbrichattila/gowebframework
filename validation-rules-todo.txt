@@ -1,0 +1,173 @@
+Basic Validation Rules
+// required:
+// The field under validation must be present in the input data and not be empty.
+
+// min:value:
+// The field under validation must have a minimum value. (done for int)
+maybe do for float or string as well? or auto recognize the data type from string?
+
+Strings: Minimum number of characters.
+Arrays: Minimum number of items.
+Files: Minimum size in kilobytes.
+Numbers: Minimum value.
+// max:value:
+The field under validation must not exceed a maximum value.
+
+Strings: Maximum number of characters.
+Arrays: Maximum number of items.
+Files: Maximum size in kilobytes.
+Numbers: Maximum value.
+between:min,max:
+The field under validation must have a size (string, file, array, number) between the given min and max.
+
+// size:value:
+The field under validation must have an exact size.
+
+Strings: Exact number of characters.
+Arrays: Exact number of items.
+Files: Exact size in kilobytes.
+Numbers: Exact value.
+// in:foo,bar,...:
+The field under validation must be included in the given list of values.
+
+not_in:foo,bar,...:
+The field under validation must not be included in the given list of values.
+
+String Validation Rules
+string:
+The field under validation must be a string.
+
+// email:
+The field under validation must be a valid email address.
+
+// url:
+The field under validation must be a valid URL.
+
+// regex:pattern:
+The field under validation must match the given regular expression.
+
+//uuid:
+The field under validation must be a valid UUID.
+
+alpha:
+The field under validation must only contain alphabetic characters.
+
+alpha_num:
+The field under validation must only contain alphanumeric characters.
+
+alpha_dash:
+The field under validation may only contain letters, numbers, dashes, and underscores.
+
+starts_with:foo,bar,...:
+The field under validation must start with one of the given values.
+
+ends_with:foo,bar,...:
+The field under validation must end with one of the given values.
+
+Numeric Validation Rules
+// numeric:
+The field under validation must be a number.
+
+// integer:
+The field under validation must be an integer.
+
+digits:value:
+The field under validation must be a number with the exact length.
+
+digits_between:min,max:
+The field under validation must be a number with a length between the given min and max.
+
+decimal:min,max:
+The field under validation must be a number with at least min decimal places and not exceeding max decimal places.
+
+Date Validation Rules
+//date:
+The field under validation must be a valid date.
+
+before:date:
+The field under validation must be a date before the given date.
+
+after:date:
+The field under validation must be a date after the given date.
+
+date_equals:date:
+The field under validation must be equal to the given date.
+
+date_format:format:
+The field under validation must match the given date format.
+
+File Validation Rules
+file:
+The field under validation must be a file.
+
+image:
+The field under validation must be an image (jpeg, png, bmp, gif, svg, or webp).
+
+mimes:foo,bar,...:
+The field under validation must have a MIME type corresponding to one of the listed extensions.
+
+mimetypes:foo,bar,...:
+The field under validation must match one of the given MIME types.
+
+dimensions:
+The field under validation must be an image meeting the dimension constraints as specified.
+
+Array Validation Rules
+array:
+The field under validation must be an array.
+
+distinct:
+The field under validation must not contain duplicate values.
+
+Other Validation Rules
+// boolean:
+The field under validation must be a boolean (true, false, 1, 0).
+
+confirmed:
+The field under validation must have a matching field with the _confirmation suffix.
+
+nullable:
+The field under validation can be null.
+
+json:
+The field under validation must be a valid JSON string.
+
+ip:
+The field under validation must be a valid IP address.
+
+ipv4:
+The field under validation must be a valid IPv4 address.
+
+ipv6:
+The field under validation must be a valid IPv6 address.
+
+required_if:anotherfield,value,...:
+The field under validation must be present if the specified field is equal to any of the given values.
+
+required_unless:anotherfield,value,...:
+The field under validation must be present unless the specified field is equal to any of the given values.
+
+required_with:foo,bar,...:
+The field under validation must be present if any of the other specified fields are present.
+
+required_without:foo,bar,...:
+The field under validation must be present when any of the other specified fields are not present.
+
+required_with_all:foo,bar,...:
+The field under validation must be present if all of the other specified fields are present.
+
+required_without_all:foo,bar,...:
+The field under validation must be present when none of the other specified fields are present.
+
+same:field:
+The field under validation must have the same value as the given field.
+
+Conditional Validation Rules
+exists:table,column:
+The field under validation must exist in a given database table.
+
+unique:table,column:
+The field under validation must be unique in a given database table.
+
+sometimes:
+The field under validation is only validated if present in the input array.

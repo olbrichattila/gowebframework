@@ -723,6 +723,24 @@ funcMyControllerAction(s session.Sessioner, val validator.Validator) {
 }
 ```
 
+Current validation rules:
+- required
+- min
+- max
+- in
+- regex
+- between
+- size
+- email
+- url
+- uuid
+- numeric
+- integer
+- date
+- dateTime
+- boolean
+- json
+
 ## Bootstrapping the application
 ```
 // app/bootstrap.go
