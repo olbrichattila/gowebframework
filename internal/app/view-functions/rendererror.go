@@ -6,7 +6,16 @@ import (
 	"strings"
 )
 
-func RenderErrors(jsonStr string) string {
+func RenderErrors(pars ...any) string {
+	if len(pars) != 1 {
+		return ""
+	}
+
+	jsonStr, ok := pars[0].(string)
+	if !ok {
+		return ""
+	}
+
 	var validatorErrors validator.ValidationErrors
 	err := json.Unmarshal([]byte(jsonStr), &validatorErrors)
 	if err != nil {
@@ -32,7 +41,21 @@ func RenderErrors(jsonStr string) string {
 	return sw.String()
 }
 
-func RenderError(field, jsonStr string) string {
+func RenderError(pars ...any) string {
+	if len(pars) != 2 {
+		return ""
+	}
+
+	field, ok := pars[0].(string)
+	if !ok {
+		return ""
+	}
+
+	jsonStr, ok := pars[1].(string)
+	if !ok {
+		return ""
+	}
+
 	var validatorErrors validator.ValidationErrors
 
 	err := json.Unmarshal([]byte(jsonStr), &validatorErrors)
