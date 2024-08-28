@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-func inRule(val string, pars ...string) (string, bool) {
+func InRule(val string, pars ...string) (string, bool) {
 	for _, elem := range pars {
 		if elem == val {
 			return "", true

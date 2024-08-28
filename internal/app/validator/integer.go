@@ -5,7 +5,7 @@ import (
 	"strconv"
 )
 
-func integerRule(val string, _ ...string) (string, bool) {
+func IntegerRule(val string, _ ...string) (string, bool) {
 	_, err := strconv.Atoi(val)
 	if err == nil {
 		return "", true

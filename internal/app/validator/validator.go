@@ -8,15 +8,29 @@ const (
 	pipePlaceholder = "__PIPE__PLACEHOLDER__"
 )
 
+type RuleFunc func(string, ...string) (string, bool)
+
 func New() Validator {
 	return &Validate{}
 }
 
 type Validator interface {
 	Validate(map[string]string, map[string]string) (bool, []string, map[string]string)
+	SetRules(map[string]RuleFunc)
 }
 
 type Validate struct {
+	rules map[string]RuleFunc
+}
+
+func (v *Validate) SetRules(rules map[string]RuleFunc) {
+	if v.rules == nil {
+		v.rules = make(map[string]RuleFunc)
+	}
+
+	for ruleName, fn := range rules {
+		v.rules[ruleName] = fn
+	}
 }
 
 func (v *Validate) Validate(fields map[string]string, rules map[string]string) (bool, []string, map[string]string) {
@@ -50,7 +64,7 @@ func (v *Validate) parse(fieldName, val, pattern string) ([]string, bool) {
 	return errorMessages, len(errorMessages) == 0
 }
 
-func (*Validate) parseRule(val, rule string) (string, bool) {
+func (v *Validate) parseRule(val, rule string) (string, bool) {
 	rulePars := make([]string, 0)
 	ruleParts := strings.Split(rule, ":")
 	ruleName := ruleParts[0]
@@ -58,7 +72,7 @@ func (*Validate) parseRule(val, rule string) (string, bool) {
 		rulePars = strings.Split(ruleParts[1], ",")
 	}
 
-	if ruleFn, ok := ruleMap[ruleName]; ok {
+	if ruleFn, ok := v.rules[ruleName]; ok {
 		return ruleFn(val, rulePars...)
 	}
 

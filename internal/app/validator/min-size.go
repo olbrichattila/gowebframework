@@ -5,7 +5,7 @@ import (
 	"strconv"
 )
 
-func minSizeRule(val string, pars ...string) (string, bool) {
+func MinSizeRule(val string, pars ...string) (string, bool) {
 	if len(pars) != 1 {
 		return "requires 1 numeric parameter like size:1", false
 	}

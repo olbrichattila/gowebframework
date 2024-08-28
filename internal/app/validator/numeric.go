@@ -5,7 +5,7 @@ import (
 	"strconv"
 )
 
-func numericRule(val string, _ ...string) (string, bool) {
+func NumericRule(val string, _ ...string) (string, bool) {
 	_, err := strconv.ParseFloat(val, 64)
 	if err == nil {
 		return "", true

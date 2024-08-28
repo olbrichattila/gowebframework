@@ -5,7 +5,7 @@ import (
 	"strconv"
 )
 
-func maxSizeRule(val string, pars ...string) (string, bool) {
+func MaxSizeRule(val string, pars ...string) (string, bool) {
 	if len(pars) != 1 {
 		return "requires 1 numeric parameter like size:1", false
 	}

@@ -5,7 +5,7 @@ import (
 	"strconv"
 )
 
-func maxRule(val string, pars ...string) (string, bool) {
+func MaxRule(val string, pars ...string) (string, bool) {
 	if len(pars) != 1 {
 		return "min, requires 1 numeric parameter like min:1", false
 	}

@@ -5,7 +5,7 @@ import (
 	"regexp"
 )
 
-func emailRule(val string, _ ...string) (string, bool) {
+func EmailRule(val string, _ ...string) (string, bool) {
 	re, err := regexp.Compile(`^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`)
 	if err != nil {
 		return "regex error validating email", false

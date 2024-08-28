@@ -5,7 +5,7 @@ import (
 	"strconv"
 )
 
-func betweenRule(val string, pars ...string) (string, bool) {
+func BetweenRule(val string, pars ...string) (string, bool) {
 	if len(pars) != 2 {
 		return "between, requires 2 numeric parameter like between:5,10", false
 	}

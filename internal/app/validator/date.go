@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-func dateRule(val string, _ ...string) (string, bool) {
+func DateRule(val string, _ ...string) (string, bool) {
 	layout := "2006-01-02"
 	_, err := time.Parse(layout, val)
 	if err == nil {
@@ -15,7 +15,7 @@ func dateRule(val string, _ ...string) (string, bool) {
 	return fmt.Sprintf("%s not in an ISO date YYYY-MM-DD", val), false
 }
 
-func dateTimeRule(val string, _ ...string) (string, bool) {
+func DateTimeRule(val string, _ ...string) (string, bool) {
 	layout := "2006-01-02 15:04:05"
 	_, err := time.Parse(layout, val)
 	if err == nil {

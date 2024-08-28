@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-func booleanRule(val string, _ ...string) (string, bool) {
+func BooleanRule(val string, _ ...string) (string, bool) {
 	c := strings.ToLower(val)
 
 	if c == "0" || c == "1" || c == "true" || c == "false" {

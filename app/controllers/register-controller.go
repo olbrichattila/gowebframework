@@ -38,18 +38,6 @@ func PostRegister(r request.Requester, db db.DBer, sqlBuilder builder.Builder, s
 	s.Set("regUserEmail", email)
 	s.Set("regUserName", name)
 
-	if name == "" {
-		validation = append(validation, "Name is required")
-	}
-
-	if email == "" {
-		validation = append(validation, "Email is required")
-	}
-
-	if len(password) < 6 {
-		validation = append(validation, "Password should be minimum 6 character")
-	}
-
 	if password != repeatPassword {
 		validation = append(validation, "Two password does not match")
 	}

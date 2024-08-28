@@ -5,7 +5,7 @@ import (
 	"net/url"
 )
 
-func urlRule(val string, _ ...string) (string, bool) {
+func UrlRule(val string, _ ...string) (string, bool) {
 	_, err := url.Parse(val)
 	if err == nil {
 		return "", true

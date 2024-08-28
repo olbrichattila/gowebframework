@@ -34,6 +34,7 @@ go run ./cmd/ artisan
 - create:command
 - create:controller
      possible flags: (-api, -rest -in= -out=). try -help for more details
+- create:custom-validator-rule
 - create:event-consumer
 - create:job
      possible flags: (-in= -out=). try -help for more details
@@ -353,6 +354,57 @@ var ViewFuncConfig = template.FuncMap{
 Please register your new command in:
   app/config/view.go
 
+## Custom validators:
+
+You can add custom validators to your validator, It can be used in route validator and as a dependency injected validator as well, Pease see the validator section:
+
+Example:
+```go run ./cmd/ artisan create:custom-validator-rule my-custom-rule```
+It generates: ```app/validator-configs/my-custom-rule.go```
+```
+package customrule
+
+// MyCustomRuleRule is a custom validator rule, 
+// val is the value to validate, 
+// pars is the elements in the rule signature, like myrule:1,2,3 will be 1, 2 and 3
+// returns error message and bool if validation is OK
+func MyCustomRuleRule(val string, pars ...string) (string, bool) {
+	// Implement your logic here...
+    return "", true
+}
+```
+
+Map your rule to a new rule name/parameter pair.
+Example: ```app/config/validators.go```
+```
+var ValidatorRules = map[string]validator.RuleFunc{
+	"myRule": customrule.MyCustomRuleRule,
+}
+```
+
+Usage:
+```
+rules := map[string]string{
+		"fieldName":  "min:5|max:80",
+		"fieldName2": "max:55",
+		"fieldName5": `myRule:10,50`,
+	}
+	ok, messages, validated := val.Validate(values, rules)
+```
+
+alternatively add it to your route validation rule config: ```app/config/route-validation-rules.go```
+```
+var RouteValidationRules = map[string]ValidationRule{
+	"register": {
+		Redirect: "/gohere",
+		Rules: map[string]string{
+			"password": "minSize:6|maxSize:255",
+			"name":     "minSize:6|maxSize:255",
+			"email":    "myRule:50",
+		},
+	},
+}
+```
 
 ## Map view partials to auto load:
 If a view use a partial it should be auto-loaded.
@@ -544,7 +596,6 @@ func TestAction(r request.Requester, db db.DBer) (Response, error) {
 
 	return resp
 }
-
 ```
 
 ### Database functions:

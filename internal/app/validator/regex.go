@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-func regexRule(val string, pars ...string) (string, bool) {
+func RegexRule(val string, pars ...string) (string, bool) {
 	pattern := strings.Join(pars, ",")
 
 	fmt.Println(pattern)

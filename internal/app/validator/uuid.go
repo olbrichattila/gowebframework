@@ -5,7 +5,7 @@ import (
 	"regexp"
 )
 
-func uuidRule(val string, _ ...string) (string, bool) {
+func UuidRule(val string, _ ...string) (string, bool) {
 	re, err := regexp.Compile(`^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[1-5][a-fA-F0-9]{3}-[89abAB][a-fA-F0-9]{3}-[a-fA-F0-9]{12}$`)
 	if err != nil {
 		return "regex error validating email", false

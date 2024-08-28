@@ -107,6 +107,10 @@ type hTTPHandler struct {
 func (h *hTTPHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	routes := h.app.conf.Routes()
 	customValidator := h.getValidatorFromDi()
+	if customValidator != nil {
+		customValidator.SetRules(appconfig.ValidatorRules)
+		customValidator.SetRules(internalconfig.ValidatorRules)
+	}
 	session := h.getSessionerFromDi()
 	req := h.getRequestFromDi()
 	if req != nil {
