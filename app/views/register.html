@@ -22,14 +22,36 @@
                     <div class="fas fa-user"></div>
                     <input type="text" name="name" value="{{.regUserName}}" placeholder="Your Name">
                 </div>
+
+                {{if renderError "name" .lastValidationError}}
+                <div class="error field">
+                    {{ renderError "name" .lastValidationError }}
+                </div>
+                {{end}}
+
                 <div class="field">
                     <div class="fas fa-envelope"></div>
                     <input type="email" name="email" value="{{.regUserEmail}}" placeholder="Email">
                 </div>
+
+                {{if renderError "email" .lastValidationError}}
+                <div class="error field">
+                    {{ renderError "email" .lastValidationError }}
+                </div>
+                {{end}}
+
                 <div class="field">
                     <div class="fas fa-lock"></div>
                     <input type="password" name="password" placeholder="Password">
                 </div>
+
+
+                {{if renderError "password" .lastValidationError}}
+                <div class="error field">
+                    {{ renderError "password" .lastValidationError }}
+                </div>
+                {{end}}
+
                 <div class="field">
                     <div class="fas fa-lock"></div>
                     <input type="password" name="repeat-password" placeholder="Repeat password">

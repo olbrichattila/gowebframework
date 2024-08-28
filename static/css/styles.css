@@ -133,6 +133,20 @@ a.link:hover {
     color: rgba(255, 0, 0, 0.363);
     border: 1px solid rgba(255, 0, 0, 0.288);
     border-radius: 6px;
+    text-align: left;
+}
+
+.error {
+    color: rgba(255, 0, 0, 0.363);
+    border: 1px solid rgba(255, 0, 0, 0.288);
+    border-radius: 6px;
+    text-align: left;
+}
+
+.error ul {
+    list-style-position: inside;
+    padding: 0 0 0 24px;
+    margin: 0;
 }
 
 .content {

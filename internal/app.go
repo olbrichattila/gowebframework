@@ -183,7 +183,7 @@ func (h *hTTPHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 								combinedErrors := h.mergeValidationErrors(genericErrors, funcErrors)
 								jSONError, err := json.Marshal(combinedErrors)
 								if err == nil {
-									session.Set("lastError", string(jSONError))
+									session.Set("lastValidationError", string(jSONError))
 								}
 							}
 

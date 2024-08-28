@@ -16,9 +16,10 @@ import (
 
 func Register(v view.Viewer, s session.Sessioner) string {
 	data := map[string]string{
-		"regUserEmail": s.Get("regUserEmail"),
-		"regUserName":  s.Get("regUserName"),
-		"lastError":    s.Get("lastError"),
+		"regUserEmail":        s.Get("regUserEmail"),
+		"regUserName":         s.Get("regUserName"),
+		"lastError":           s.Get("lastError"),
+		"lastValidationError": s.Get("lastValidationError"),
 	}
 
 	s.Delete("lastError")
