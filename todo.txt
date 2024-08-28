@@ -20,7 +20,7 @@
 // add Validator, maybe combine with request, and possibility to validate in middleware and redirect, + store in session the fields validated to reuse
 // add custom validator class and an artisan command to generate
 // cleanup html templates remove repetition of headers with template partials, auto load of partials from folder.
-consider adding 'lastError' or validation error (if changes) automatically to view render
+consider adding 'lastValidationError' or validation error (if changes) automatically to view render
 add File Storage (S3, and other) 
 add .conf.yml (include in config to fetch)
 add migrator as internal command, so we can get rid of .env.migrator
