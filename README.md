@@ -359,26 +359,28 @@ Please register your new command in:
 You can add custom validators to your validator, It can be used in route validator and as a dependency injected validator as well, Pease see the validator section:
 
 Example:
-```go run ./cmd/ artisan create:custom-validator-rule my-custom-rule```
+```go run ./cmd/ artisan create:custom-validator-rule my-custom```
 It generates: ```app/validator-configs/my-custom-rule.go```
 ```
 package customrule
 
-// MyCustomRuleRule is a custom validator rule, 
-// val is the value to validate, 
+import "framework/internal/app/validator"
+
+// MyCustomRule is a custom validator rule,
+// val is the value to validate,
 // pars is the elements in the rule signature, like myrule:1,2,3 will be 1, 2 and 3
 // returns error message and bool if validation is OK
-func MyCustomRuleRule(val string, pars ...string) (string, bool) {
-	// Implement your logic here...
-    return "", true
+func MyCustomRule(val string, pars ...string) (validator.ValidationErrors, bool) {
+	return nil, true
 }
+
 ```
 
 Map your rule to a new rule name/parameter pair.
 Example: ```app/config/validators.go```
 ```
 var ValidatorRules = map[string]validator.RuleFunc{
-	"myRule": customrule.MyCustomRuleRule,
+	"myRule": customrule.MyCustomRule,
 }
 ```
 
@@ -812,7 +814,7 @@ This is not mandatory to set on the route, if not set, no validation, but you ar
 In your validator config
 - Redirect (not mandatory, if you set on failure it will redirect here, if not set then it will continue calling your controller action)
 - Rules (non mandatory, if not set, no validation takes place using validator class)
-- CustomRule (non mandatory. This is a function ```func(fields map[string]string) (string, bool) {}```. If  you set then you receive the parameters (post, get, route as well) in a map, you return a validation error message, and bool for OK or not )
+- CustomRule (non mandatory. This is a function ```func(fields map[string]string) (validator.ValidationErrors, bool) {}```. If  you set then you receive the parameters (post, get, route as well) in a map, you return a validation error message, and bool for OK or not )
 
 
 ```
@@ -825,7 +827,9 @@ var RouteValidationRules = map[string]ValidationRule{
 			"name":     "minSize:6|maxSize:255",
 			"email":    "email",
 		},
-		CustomRule: func(fields map[string]string) (string, bool) { return "not good " + fmt.Sprintf("%v", fields), false },
+		CustomRule: func(fields map[string]string) (validator.ValidationErrors, bool) {
+			return validator.ValidationErrors{"name": []string{"error1", "error2"}}, false
+		},
 	},
 }
 ```

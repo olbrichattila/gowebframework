@@ -18,7 +18,6 @@ import (
 	internalconfig "framework/internal/internal-config"
 	"net/http"
 	"reflect"
-	"strings"
 
 	"github.com/olbrichattila/godi"
 )
@@ -156,7 +155,8 @@ func (h *hTTPHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 			// Route validator logic
 			if action.ValidationRules != "" {
-				errorMessage := ""
+				genericErrors := make(validator.ValidationErrors)
+				funcErrors := make(validator.ValidationErrors)
 				isValid := true
 				if rule, ok := appconfig.RouteValidationRules[action.ValidationRules]; ok {
 
@@ -166,24 +166,25 @@ func (h *hTTPHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 							ok, errors, _ := customValidator.Validate(allRequests, rule.Rules)
 							if !ok {
-								errorMessage = strings.Join(errors, "<br />")
+								genericErrors = errors
 								isValid = false
 							}
 						}
 
 						if rule.CustomRule != nil {
-							if message, ok := rule.CustomRule(allRequests); !ok {
-								if errorMessage != "" {
-									errorMessage = errorMessage + "<br />"
-								}
-								errorMessage = errorMessage + message
+							if customFuncErrors, ok := rule.CustomRule(allRequests); !ok {
+								funcErrors = customFuncErrors
 								isValid = false
 							}
 						}
 
 						if !isValid {
 							if session != nil {
-								session.Set("lastError", errorMessage)
+								combinedErrors := h.mergeValidationErrors(genericErrors, funcErrors)
+								jSONError, err := json.Marshal(combinedErrors)
+								if err == nil {
+									session.Set("lastError", string(jSONError))
+								}
 							}
 
 							if rule.Redirect != "" {
@@ -273,4 +274,33 @@ func (h *hTTPHandler) getSessionerFromDi() session.Sessioner {
 	}
 
 	return nil
+}
+
+func (h *hTTPHandler) mergeValidationErrors(errorSet1, errorSet2 validator.ValidationErrors) validator.ValidationErrors {
+	result := make(validator.ValidationErrors)
+	for key, value := range errorSet1 {
+		if value == nil {
+			result[key] = make([]string, 0)
+			continue
+		}
+
+		result[key] = value
+	}
+
+	for key, value := range errorSet2 {
+		subset, ok := result[key]
+		if ok && value != nil {
+			result[key] = append(subset, value...)
+			continue
+		}
+
+		if value == nil {
+			result[key] = make([]string, 0)
+			continue
+		}
+
+		result[key] = value
+
+	}
+	return result
 }

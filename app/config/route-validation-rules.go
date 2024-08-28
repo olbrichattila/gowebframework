@@ -1,6 +1,10 @@
 package appconfig
 
-type CustomValidatorFunc func(map[string]string) (string, bool)
+import (
+	"framework/internal/app/validator"
+)
+
+type CustomValidatorFunc func(map[string]string) (validator.ValidationErrors, bool)
 
 type ValidationRule struct {
 	Redirect   string
@@ -16,6 +20,8 @@ var RouteValidationRules = map[string]ValidationRule{
 			"name":     "minSize:6|maxSize:255",
 			"email":    "email",
 		},
-		// CustomRule: func(fields map[string]string) (string, bool) { return "not good " + fmt.Sprintf("%v", fields), false },
+		// CustomRule: func(fields map[string]string) (validator.ValidationErrors, bool) {
+		// 	return validator.ValidationErrors{"name": []string{"error1", "error2"}}, false
+		// },
 	},
 }
