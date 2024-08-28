@@ -19,6 +19,7 @@
 // add Caching / html template and generic, use file, redis, db memcache drivers
 // add Validator, maybe combine with request, and possibility to validate in middleware and redirect, + store in session the fields validated to reuse
 // add custom validator class and an artisan command to generate
+// cleanup html templates remove repetition of headers with template partials, auto load of partials from folder.
 consider adding 'lastError' or validation error (if changes) automatically to view render
 add File Storage (S3, and other) 
 add .conf.yml (include in config to fetch)
@@ -28,7 +29,6 @@ add Job rate Limiter
 add Config, Env config and config cache
 add DB transactions
 add Environment dependent service DI providers
-cleanup html templates remove repetition of headers with template partials, auto load of partials from folder.
 concurrency locker // for DB expecially with SQLIte connection
 add context to DI, global context
 add global channels
