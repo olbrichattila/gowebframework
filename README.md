@@ -42,7 +42,13 @@ go run ./cmd/ artisan
      possible flags: (-in= -out=). try -help for more details
 - create:view-function
 - list-commands
+- list-global-middlewares
+- list-jobs
+- list-routes
+- list-template-auto-loads
+- list-view-functions
 ```
+
 ### create:command
 Create a new blank command into app/commands folder
 Usage:
