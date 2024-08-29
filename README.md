@@ -923,29 +923,37 @@ var DiBindings = []config.DiCallback{
 ## .env variables
 ```
 APP_URL=http://localhost:8080
+# Optional, 80 if not set
 HTTP_LISTENING_PORT=8080
 
-## redis
 REDIS_SERVER_HOST=localhost
+# Those are optional, and taing default values
+# REDIS_PASSWORD=optional
+# REDIS_DB=0
+# REDIS_PORT=6379
 
-## memcace
+
 MEMCACHE_HOST=localhost
+## Port is optional, default 11211
+# MEMCACHE_PORT=11211
 
-## mail
 SMTP_USER_NAME=mailtrap
 SMTP_PASSWORD=mailtrap
 SMTP_HOST=localhost
 SMTP_PORT=1025
 
-## Session storage
 SESSION_STORAGE=file
-SESSION_STORAGE=redis
-SESSION_STORAGE=db
-SESSION_STORAGE=memcached
+# SESSION_STORAGE=redis
+# SESSION_STORAGE=db
+# SESSION_STORAGE=memcached
 
-## Logger storage
-LOGGER_STORAGE=file
-LOGGER_STORAGE=redis
+# LOGGER_STORAGE=file
+# LOGGER_STORAGE=redis
 LOGGER_STORAGE=db
-LOGGER_STORAGE=memcached
+# LOGGER_STORAGE=memcached
+
+# CACHE_STORAGE=file
+# CACHE_STORAGE=redis
+CACHE_STORAGE=db
+# CACHE_STORAGE=memcached
 ```
