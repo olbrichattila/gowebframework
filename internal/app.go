@@ -17,7 +17,9 @@ import (
 	"framework/internal/app/validator"
 	internalconfig "framework/internal/internal-config"
 	"net/http"
+	"os"
 	"reflect"
+	"strconv"
 
 	"github.com/olbrichattila/godi"
 )
@@ -81,15 +83,34 @@ func (a *App) Construct(
 }
 
 func (a *App) Serve() {
+	port, err := a.getPort()
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+
 	hTTPHandler := &hTTPHandler{app: a}
 	fs := http.FileServer(http.Dir("static"))
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
 	http.Handle("/", hTTPHandler)
 
-	err := http.ListenAndServe(":8000", nil)
+	err = http.ListenAndServe(port, nil)
 	if err != nil {
 		fmt.Println(err.Error())
 	}
+}
+
+func (a *App) getPort() (string, error) {
+	port := os.Getenv("HTTP_LISTENING_PORT")
+	if port == "" {
+		return ":80", nil
+	}
+
+	if _, err := strconv.Atoi(port); err == nil {
+		return ":" + port, nil
+	}
+
+	return "", fmt.Errorf("port %s provided is not a number", port)
 }
 
 func (a *App) Command() {

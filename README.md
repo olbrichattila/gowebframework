@@ -549,10 +549,12 @@ Usage examples:
 
 ## Built in functions
 - urlEscape (exapmle {{ urlEscape . }}) 
+- envVar (example {{ envVar "APP_ENV" }}) (render environment variable)
 - further to come
+-renderErrors (render errors (all error set by validator)) 
+-renderError (render error for specific field, example: {{ renderError "email" }})
 
 ## Adding custom functions for a particular view
-
 ```
 func yourFunc(str string) string {
 	return "it is your " + str
@@ -920,6 +922,9 @@ var DiBindings = []config.DiCallback{
 ```
 ## .env variables
 ```
+APP_URL=http://localhost:8080
+HTTP_LISTENING_PORT=8080
+
 ## redis
 REDIS_SERVER_HOST=localhost
 

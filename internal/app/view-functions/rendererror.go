@@ -16,6 +16,10 @@ func RenderErrors(pars ...any) string {
 		return ""
 	}
 
+	if jsonStr == "" {
+		return ""
+	}
+
 	var validatorErrors validator.ValidationErrors
 	err := json.Unmarshal([]byte(jsonStr), &validatorErrors)
 	if err != nil {
@@ -53,6 +57,10 @@ func RenderError(pars ...any) string {
 
 	jsonStr, ok := pars[1].(string)
 	if !ok {
+		return ""
+	}
+
+	if jsonStr == "" {
 		return ""
 	}
 
