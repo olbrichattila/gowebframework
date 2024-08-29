@@ -498,6 +498,54 @@ func RegisterAction(v view.Viewer) string {
 	return v.RenderView("register.html", data)
 }
 ```
+## Automatically adding validation errors to view:
+It is possible to call ```RenderViewWithSessionError``` instead of ```RenderView```
+In this case what you pass as a data to the view will be under `data`
+Example:
+```
+{{.data.regUserName}}
+```
+
+The errors automatically added from session: (those are automatically added to the session using validator or route validator)
+Fields added:
+- lastError (string, it is not managed automatically by view)
+- lastValidationError (string, and contains a JSON string, therefore using directly can be tricky, that's why two functions are available in the view)
+
+Functions to display them easily:
+
+- renderErrors (takes one parameter, containing the JSON errors /lastValidationError/ )
+- renderError (takes two parameters, the field name and the JSON errors /lastValidationError/)
+
+The first one renders all errors as html, like:
+```
+<ul>
+	<li>Field Name
+		<ul>
+			<li>error1</li>
+			<li>error2</li>
+		</ul>
+	<li>
+</ul>
+```
+The second one renderError returns a comma separated string with the error(s) related to the field 
+Usage examples:
+
+```
+{{if renderError "password" .lastValidationError}}
+<div class="error field">
+	{{ renderError "password" .lastValidationError }}
+</div>
+{{end}}
+```
+```
+{{if .lastValidationError}}
+<div class="error field">
+	{{ renderErrors .lastValidationError }}
+</div>
+{{end}}
+```
+
+
 
 ## Built in functions
 - urlEscape (exapmle {{ urlEscape . }}) 

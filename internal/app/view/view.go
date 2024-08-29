@@ -3,6 +3,7 @@ package view
 import (
 	"bytes"
 	"framework/internal/app/config"
+	"framework/internal/app/session"
 	"os"
 	"path/filepath"
 	"text/template"
@@ -14,9 +15,10 @@ const (
 )
 
 type Viewer interface {
-	Construct(config.Configer)
+	Construct(config.Configer, session.Sessioner)
 	Render(string, any) string
 	RenderView(string, any) string
+	RenderViewWithSessionError(string, any) string
 	RenderMail(string, any) string
 	NewPath(...string)
 	RenderToFile(string, string, any) error
@@ -33,14 +35,16 @@ func New() Viewer {
 
 type View struct {
 	config                   config.Configer
+	session                  session.Sessioner
 	path                     []string
 	funcs                    template.FuncMap
 	extraTemplatesToAutoLoad []string
 	viewType                 string
 }
 
-func (v *View) Construct(conf config.Configer) {
+func (v *View) Construct(conf config.Configer, s session.Sessioner) {
 	v.config = conf
+	v.session = s
 }
 
 func (v *View) RenderViewToFile(fileName string, templateFileName string, params any) error {
@@ -76,6 +80,16 @@ func (v *View) toFile(fileName, content string) error {
 func (v *View) RenderView(templateFileName string, params any) string {
 	v.viewType = ViewTypeHTML
 	return v.renderTemplate(templateFileName, params)
+}
+
+func (v *View) RenderViewWithSessionError(templateFileName string, params any) string {
+	wrapper := map[string]interface{}{
+		"lastError":           v.session.Get("lastError"),
+		"lastValidationError": v.session.Get("lastValidationError"),
+		"data":                params,
+	}
+	v.viewType = ViewTypeHTML
+	return v.renderTemplate(templateFileName, wrapper)
 }
 
 func (v *View) Render(templateFileName string, params any) string {

@@ -16,15 +16,13 @@ import (
 
 func Register(v view.Viewer, s session.Sessioner) string {
 	data := map[string]string{
-		"regUserEmail":        s.Get("regUserEmail"),
-		"regUserName":         s.Get("regUserName"),
-		"lastError":           s.Get("lastError"),
-		"lastValidationError": s.Get("lastValidationError"),
+		"regUserEmail": s.Get("regUserEmail"),
+		"regUserName":  s.Get("regUserName"),
 	}
 
 	s.Delete("lastError")
 
-	return v.RenderView("register.html", data)
+	return v.RenderViewWithSessionError("register.html", data)
 }
 
 func PostRegister(r request.Requester, db db.DBer, sqlBuilder builder.Builder, s session.Sessioner, q queue.Quer) {
