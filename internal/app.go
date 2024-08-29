@@ -94,6 +94,8 @@ func (a *App) Serve() {
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
 	http.Handle("/", hTTPHandler)
 
+	// TODO Add this in go routine to listen on https as well
+	// http.ListenAndServeTLS()
 	err = http.ListenAndServe(port, nil)
 	if err != nil {
 		fmt.Println(err.Error())
