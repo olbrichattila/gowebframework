@@ -5,7 +5,7 @@
 // add DI across function calls / this is non singleton DI
 // add create:event command
 // add Route resource controller, (create crud)
-// add someting like PHP artisan, creating boilerlate controllers, resource contorllers middlewares automatically
+// add something like PHP artisan, creating boilerplate controllers, resource controllers middlewares automatically
 // separate mandatory framework DI and custom DI config file
 // fix SQL Builder component does not work for Postgres, Need to be able to change field delimeter from ` to ", And parameter binding is not ? but $1, $2
 // fix SQL builder with postgres does not support last insert ID
@@ -15,7 +15,7 @@
 // add redis, memcache, other session manager
 // add Logger (multiple channels) (1 channel. file is done)
 // add more customizable routes
-// add cofing containing folrers, what view should auto render like /templates so it is easier to swap the slice[... templatefiles] to replace with a simple template file. 
+// add config containing folders, what view should auto render like /templates so it is easier to swap the slice[... templatefiles] to replace with a simple template file. 
 // add Caching / html template and generic, use file, redis, db memcache drivers
 // add Validator, maybe combine with request, and possibility to validate in middleware and redirect, + store in session the fields validated to reuse
 // add custom validator class and an artisan command to generate
@@ -30,12 +30,12 @@ add Job rate Limiter
 add Config, Env config and config cache
 add DB transactions
 add Environment dependent service DI providers
-concurrency locker // for DB expecially with SQLIte connection
+concurrency locker // for DB especially with SQLIte connection, session, file storage
 add context to DI, global context
 add global channels
 add Event listeners... 
     -local /added
-    -other chanels, todo
+    -other channels, todo
 add session, cache, log cleanups, expiration
 add session bound to http only
 add @crsf
@@ -43,8 +43,8 @@ add PDF generator from view
 add Testing with auto bootstrapping the app
 add Auto cdn, convert to webp, resize crop by file name suffix
 add Expand notification, next to emails to various channels, SMS, Push notification
-add Localisation (language translation)
-add Event broadcastion (see Laravel)
+add Localization (language translation)
+add Event broadcasting (see Laravel)
 add Add Policy Gate Authorization like  allow you to manage user permissions in an organized manner.
 add Event listeners internally, direct or queue, implement Observer (internal is done)
 add Rate Limiter middleware
