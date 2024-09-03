@@ -86,6 +86,7 @@ func (v *View) RenderViewWithSessionError(templateFileName string, params any) s
 	wrapper := map[string]interface{}{
 		"lastError":           v.session.Get("lastError"),
 		"lastValidationError": v.session.Get("lastValidationError"),
+		"lastRequest":         v.session.Get("lastRequest"),
 		"data":                params,
 	}
 	v.viewType = ViewTypeHTML

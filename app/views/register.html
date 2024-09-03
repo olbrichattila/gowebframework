@@ -20,7 +20,7 @@
             <form>
                 <div class="field">
                     <div class="fas fa-user"></div>
-                    <input type="text" name="name" value="{{.data.regUserName}}" placeholder="Your Name">
+                    <input type="text" name="name" value="{{lastRequest "name" .lastRequest}}" placeholder="Your Name">
                 </div>
 
                 {{if renderError "name" .lastValidationError}}
@@ -31,7 +31,7 @@
 
                 <div class="field">
                     <div class="fas fa-envelope"></div>
-                    <input type="email" name="email" value="{{.data.regUserEmail}}" placeholder="Email">
+                    <input type="email" name="email" value="{{lastRequest "email" .lastRequest}}" placeholder="Email">
                 </div>
 
                 {{if renderError "email" .lastValidationError}}

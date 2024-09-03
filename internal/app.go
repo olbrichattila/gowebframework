@@ -208,6 +208,11 @@ func (h *hTTPHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 								if err == nil {
 									session.Set("lastValidationError", string(jSONError))
 								}
+
+								requestJSON, err := json.Marshal(allRequests)
+								if err == nil {
+									session.Set("lastRequest", string(requestJSON))
+								}
 							}
 
 							if rule.Redirect != "" {

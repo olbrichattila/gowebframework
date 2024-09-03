@@ -12,4 +12,5 @@ var ViewFuncConfig = template.FuncMap{
 	"envVar":       os.Getenv,
 	"renderErrors": internalviewfunction.RenderErrors,
 	"renderError":  internalviewfunction.RenderError,
+	"lastRequest":  internalviewfunction.RenderRequest,
 }
