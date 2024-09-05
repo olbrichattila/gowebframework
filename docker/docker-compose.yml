@@ -54,14 +54,12 @@ services:
       - "6379:6379"
     volumes:
       - redis_data:/data
-    restart: unless-stopped
 
   memcached:
     image: memcached:latest
     container_name: memcached
     ports:
       - "11211:11211"
-    restart: unless-stopped
     environment:
       MEMCACHED_MEMORY: 64
       MEMCACHED_MAX_CONNECTIONS: 1024
