@@ -22,10 +22,11 @@
 // cleanup html templates remove repetition of headers with template partials, auto load of partials from folder.
 // consider adding 'lastValidationError' or validation error (if changes) automatically to view render
 // TODO finish up testing RenderViewWithSessionError, and change the validator and use it in the POST register instead of get? Validates on first load.
+// add migrator as internal command, so we can get rid of .env.migrator
+// Application .env builder
 the validator should store the post/get/route parameters passed to the session, maybe to be able to switch on and off this feature 
 add File Storage (S3, and other) 
 add .conf.yml (include in config to fetch)
-add migrator as internal command, so we can get rid of .env.migrator
 add Job middleware
 add Job rate Limiter
 add Config, Env config and config cache
