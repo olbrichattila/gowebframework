@@ -8,6 +8,7 @@ import (
 )
 
 func ListMiddlewares(c config.Configer) {
+	c.ViewConfig()
 	middlewares := c.Middlewares()
 	reorderSlice := make([]string, len(middlewares))
 

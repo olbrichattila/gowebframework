@@ -15,6 +15,7 @@ require (
 	github.com/go-sql-driver/mysql v1.8.1
 	github.com/lib/pq v1.10.9
 	github.com/nakagami/firebirdsql v0.9.11
+	github.com/olbrichattila/godbmigrator v1.1.16
 	github.com/olbrichattila/gosqlbuilder v1.0.5
 	golang.org/x/crypto v0.26.0
 )

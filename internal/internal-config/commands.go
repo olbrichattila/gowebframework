@@ -19,4 +19,9 @@ var ConsoleCommands = map[string]commandexecutor.CommandItem{
 	"create:view-function":         {Fn: internalcommand.CreateCustomViewFunction, Desc: ""},
 	"create:event-consumer":        {Fn: internalcommand.CreateEventConsumer, Desc: ""},
 	"create:custom-validator-rule": {Fn: internalcommand.CreateCustomValidationRule, Desc: ""},
+	"migrate":                      {Fn: internalcommand.Migrate, Desc: "Run migration, optional parameter -step=<number>"},
+	"migrate:rollback":             {Fn: internalcommand.Rollback, Desc: "Rollback migrations, optional parameter -step=<number>"},
+	"migrate:refresh":              {Fn: internalcommand.Refresh, Desc: "Run migration from scratch (rollback/migrate)"},
+	"migrate:report":               {Fn: internalcommand.Report, Desc: "Display history of migrations"},
+	"migrate:add":                  {Fn: internalcommand.Add, Desc: "Add new migration and rollback file"},
 }

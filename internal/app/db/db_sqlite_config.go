@@ -14,10 +14,10 @@ func newSqliteConfig() DBConfiger {
 type SqLiteConfig struct {
 }
 
-func (c *SqLiteConfig) getConnectionString() string {
+func (c *SqLiteConfig) GetConnectionString() string {
 	return os.Getenv(envdbDatabase)
 }
 
-func (c *SqLiteConfig) getConnectionName() string {
+func (c *SqLiteConfig) GetConnectionName() string {
 	return DriverNameSqLite
 }

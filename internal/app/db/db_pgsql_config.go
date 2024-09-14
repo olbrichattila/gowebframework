@@ -15,7 +15,7 @@ func newPgsqlConfig() DBConfiger {
 	return &PgSQLConfig{}
 }
 
-func (c *PgSQLConfig) getConnectionString() string {
+func (c *PgSQLConfig) GetConnectionString() string {
 	return fmt.Sprintf(
 		"postgres://%s:%s@%s:%s/%s?sslmode=%s",
 		os.Getenv(envdbUserName),
@@ -27,6 +27,6 @@ func (c *PgSQLConfig) getConnectionString() string {
 	)
 }
 
-func (c *PgSQLConfig) getConnectionName() string {
+func (c *PgSQLConfig) GetConnectionName() string {
 	return DriverNamePostgres
 }

@@ -15,7 +15,7 @@ func newFirebirdConfig() DBConfiger {
 	return &FirebirdConfig{}
 }
 
-func (c *FirebirdConfig) getConnectionString() string {
+func (c *FirebirdConfig) GetConnectionString() string {
 	return fmt.Sprintf(
 		"%s:%s@%s:%s%s",
 		os.Getenv(envdbUserName),
@@ -26,6 +26,6 @@ func (c *FirebirdConfig) getConnectionString() string {
 	)
 }
 
-func (c *FirebirdConfig) getConnectionName() string {
+func (c *FirebirdConfig) GetConnectionName() string {
 	return DriverNameFirebird
 }

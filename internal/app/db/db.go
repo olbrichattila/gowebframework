@@ -80,7 +80,7 @@ func (d *DB) Cleanup() {
 
 func (d *DB) Open() {
 	var err error
-	d.db, err = sql.Open(d.dbConfig.getConnectionName(), d.dbConfig.getConnectionString())
+	d.db, err = sql.Open(d.dbConfig.GetConnectionName(), d.dbConfig.GetConnectionString())
 	if err != nil {
 		d.logError(err.Error())
 	}
@@ -241,7 +241,7 @@ func (d *DB) Execute(sql string, pars ...any) (int64, error) {
 	// PG SQL and FirebirdSql does not support last insert ID, try to get it
 	// It is really hacky, and could just use RETURNS id in the SQL, it is here to be compatible with MySql, SqLite
 	// but way less performant
-	switch d.dbConfig.getConnectionName() {
+	switch d.dbConfig.GetConnectionName() {
 	case DriverNamePostgres:
 		return d.getPgSQLLastInsertId(sql)
 	case DriverNameFirebird:

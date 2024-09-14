@@ -15,7 +15,7 @@ func newMySQLConfig() DBConfiger {
 	return &MySQLConfig{}
 }
 
-func (c *MySQLConfig) getConnectionString() string {
+func (c *MySQLConfig) GetConnectionString() string {
 	return fmt.Sprintf(
 		"%s:%s@tcp(%s:%s)/%s",
 		os.Getenv(envdbUserName),
@@ -26,6 +26,6 @@ func (c *MySQLConfig) getConnectionString() string {
 	)
 }
 
-func (c *MySQLConfig) getConnectionName() string {
+func (c *MySQLConfig) GetConnectionName() string {
 	return DriverNameMySQL
 }

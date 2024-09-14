@@ -47,6 +47,16 @@ go run ./cmd/ artisan
 - list-routes
 - list-template-auto-loads
 - list-view-functions
+- migrate
+     Run migration, optional parameter -step=<number>
+- migrate:add
+     Add new migration and rollback file
+- migrate:refresh
+     Run migration from scratch (rollback/migrate)
+- migrate:report
+     Display history of migrations
+- migrate:rollback
+     Rollback migrations, optional parameter -step=<number>
 ```
 
 ### create:command
@@ -444,21 +454,54 @@ var TemplateAutoLoad = map[string][]string{
 ```
 
 ## Migrations
-Install migrator
+> Add new migration and rollback file
 ```
-go install github.com/olbrichattila/godbmigrator_cmd/cmd/migrator@latest
-```
-Please see: https://github.com/olbrichattila/godbmigrator_cmd how to configure your DB, this configuration will be used with the framework as well.
+go run ./cmd artisan migrate:add
 
-then you can:
+Will add:
+2024-09-14_15_14_01-migrate.sql
+2024-09-14_15_14_01-rollback.sql
 ```
-migrator migrate
-migrator rollback
-migrator migrate 2
-migrator rollback 2
-migrator report
-migrator add <optional suffix>
+
+> Add with Prefix:
 ```
+go run ./cmd artisan migrate:add add_transactions_table
+
+Will add:
+2024-09-14_15_15_12-migrate-add_transactions_table.sql
+2024-09-14_15_15_12-rollback-add_transactions_table.sql
+```
+
+> Migrate every new migrations
+```
+go run ./cmd artisan migrate
+```
+
+> migrate (2) migrations
+```
+go run ./cmd artisan migrate -step=2
+```
+
+> rollback migrations executed previously 
+```
+go run ./cmd artisan migrate:rollback
+```
+
+> rollback migrations executed previously but max 2
+```
+go run ./cmd artisan migrate:rollback -step=2
+```
+
+> Roll back all migrations and run them from beginning
+```
+go run ./cmd artisan migrate:refresh
+```
+
+> Display migration history
+```
+go run ./cmd artisan migrate:report
+```
+
 
 ### Sessions:
 Type hint in your controller, job, middleware or other functions like: ```s session.Sessioner```

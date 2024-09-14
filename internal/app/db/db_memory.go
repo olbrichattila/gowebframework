@@ -7,10 +7,10 @@ func newMemoryDBConfig() DBConfiger {
 	return &MemoryConfig{}
 }
 
-func (c *MemoryConfig) getConnectionString() string {
+func (c *MemoryConfig) GetConnectionString() string {
 	return ":memory:"
 }
 
-func (c *MemoryConfig) getConnectionName() string {
+func (c *MemoryConfig) GetConnectionName() string {
 	return DriverNameSqLite
 }
