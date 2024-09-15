@@ -5,3 +5,4 @@ log/*
 !log/.gitkeep
 cache/*
 !cache/.gitkeep
+cmd/appwizard/appwizard
