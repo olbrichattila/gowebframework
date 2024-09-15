@@ -25,6 +25,13 @@
 - Storage (file only, others, redis, db... to come soon)
 - Built in artisan commands
 
+## Setup
+Interactively generates .env file for your needs
+```
+make appwizard
+```
+
+
 ## Artisan commands:
 ```
 go run ./cmd/ artisan
