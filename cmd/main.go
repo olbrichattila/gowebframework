@@ -10,9 +10,7 @@ import (
 
 func main() {
 	args := os.Args
-
-	container := godi.New()
-	app := app.New(container)
+	app := app.New(godi.New())
 	if len(args) < 2 {
 		app.Serve()
 		return

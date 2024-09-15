@@ -1,6 +1,13 @@
 appwizard:
 	cd cmd/appwizard && go build -o appwizard
 	./cmd/appwizard/appwizard
+run:
+	go run ./cmd/
+build:
+	go build -o gofra ./cmd/
+build-and-run:
+	go build -o gofra ./cmd/
+	./gofra
 db-sqlite-recreate:
 	@if [ -f ./database/database.sqlite ]; then rm ./database/database.sqlite; fi
 	csvimporter data.csv vehicles ";"

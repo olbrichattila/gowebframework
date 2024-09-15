@@ -82,25 +82,6 @@ func processQuestions(envContent string, q question) []envData {
 	return responses
 }
 
-// func input(defaultValue string) string {
-// 	if defaultValue != "" {
-// 		fmt.Printf("(current: %s, press enter to keep it): ", defaultValue)
-// 	}
-
-// 	reader := bufio.NewReader(os.Stdin)
-// 	input, err := reader.ReadString('\n')
-// 	if err != nil {
-// 		return ""
-// 	}
-
-// 	val := strings.TrimSpace(input)
-// 	if val == "" {
-// 		return defaultValue
-// 	}
-
-// 	return val
-// }
-
 func selection(q question, currentValue string) *answer {
 	prompt := ""
 	if len(q.answers) > 0 {

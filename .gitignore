@@ -6,3 +6,4 @@ log/*
 cache/*
 !cache/.gitkeep
 cmd/appwizard/appwizard
+gofra
