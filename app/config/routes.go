@@ -105,4 +105,11 @@ var Routes = []router.ControllerAction{
 		Fn:          controller.DisplayVehicles,
 		Middlewares: AuthMiddleware,
 	},
+	{
+		Path:        "/json",
+		RequestType: http.MethodGet,
+		Fn: func() map[string]string {
+			return map[string]string{"result": "ok"}
+		},
+	},
 }
