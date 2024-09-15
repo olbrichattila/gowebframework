@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
 	"os"
 	"regexp"
@@ -32,13 +31,31 @@ type question struct {
 }
 
 func main() {
-	databaseWizard()
+	wizard()
 }
 
-func databaseWizard() {
+func wizard() {
 	envContent := getEnvContent()
-	currentQuestion := appUrlQuestion
+
+	responses := processQuestions(envContent, appUrlQuestion)
+
+	storages := getStorages(responses)
+	for _, storageName := range storages {
+		if storageQuestion, ok := storageQuestionMap[storageName]; ok {
+			if storageQuestion == nil {
+				continue
+			}
+			responses = append(responses, processQuestions(envContent, *storageQuestion)...)
+		}
+	}
+
+	envStr := mergeEnv(envContent, responses)
+	saveEnvContent(envStr)
+}
+
+func processQuestions(envContent string, q question) []envData {
 	responses := make([]envData, 0)
+	currentQuestion := q
 	for {
 		currentValue := lookupValue(envContent, currentQuestion.key)
 		if currentValue == "" {
@@ -62,72 +79,44 @@ func databaseWizard() {
 		break
 	}
 
-	storages := getStorages(responses)
-	for _, storageName := range storages {
-		if storageQuestion, ok := storageQuestionMap[storageName]; ok {
-			if storageQuestion == nil {
-				continue
-			}
-			currentQuestion := storageQuestion
-			for {
-				currentValue := lookupValue(envContent, currentQuestion.key)
-				if currentValue == "" {
-					currentValue = currentQuestion.defaultAnswer
-				}
-
-				answer := selection(*currentQuestion, currentValue)
-				fmt.Println("")
-
-				if currentQuestion.key != "" && answer.value != "" {
-					responses = append(responses, envData{key: currentQuestion.key, value: answer.value})
-				}
-				if currentQuestion.nextQuestion == nil {
-					break
-				}
-
-				currentQuestion = currentQuestion.nextQuestion
-			}
-		}
-	}
-
-	envStr := mergeEnv(envContent, responses)
-	saveEnvContent(envStr)
+	return responses
 }
 
-func input(defaultValue string) string {
-	if defaultValue != "" {
-		fmt.Printf("(current: %s, press enter to keep it): ", defaultValue)
-	}
+// func input(defaultValue string) string {
+// 	if defaultValue != "" {
+// 		fmt.Printf("(current: %s, press enter to keep it): ", defaultValue)
+// 	}
 
-	reader := bufio.NewReader(os.Stdin)
-	input, err := reader.ReadString('\n')
-	if err != nil {
-		return ""
-	}
+// 	reader := bufio.NewReader(os.Stdin)
+// 	input, err := reader.ReadString('\n')
+// 	if err != nil {
+// 		return ""
+// 	}
 
-	val := strings.TrimSpace(input)
-	if val == "" {
-		return defaultValue
-	}
+// 	val := strings.TrimSpace(input)
+// 	if val == "" {
+// 		return defaultValue
+// 	}
 
-	return val
-}
+// 	return val
+// }
 
 func selection(q question, currentValue string) *answer {
+	prompt := ""
 	if len(q.answers) > 0 {
 		fmt.Println(q.prompt)
-		fmt.Print("Please choose: ")
+		prompt = "Please choose: "
 	} else {
-		fmt.Print(q.prompt + ": ")
+		prompt = q.prompt + ": "
 	}
 
 	for {
 		response := ""
 		if len(q.answers) == 0 {
-			response = input(currentValue)
+			response = input(prompt, currentValue)
 		} else {
 			resolvedAnswer := resolveAnswer(q.answers, currentValue)
-			response = input(resolvedAnswer)
+			response = input(prompt, resolvedAnswer)
 		}
 
 		if response == "" && q.mandatory {
