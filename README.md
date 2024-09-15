@@ -26,11 +26,34 @@
 - Built in artisan commands
 
 ## Setup
+
+## Install:
+```
+go install github.com/olbrichattila/godbmigrator_cmd/cmd/migrator@latest
+go install github.com/olbrichattila/gocsvexporter/cmd/csvexporter@latest
+go install github.com/olbrichattila/gocsvimporter/cmd/csvimporter@latest
+```
+
 Interactively generates .env file for your needs
 ```
 make appwizard
 ```
 
+## Makefile targets:
+
+- appwizard
+- run
+- build
+- build-and-run
+- db-sqlite-recreate
+- db-recreate
+- db-recreate-firebird
+- switch-sqlite
+- switch-mysql
+- switch-pgsql
+- switch-firebird
+- lint
+- test
 
 ## Artisan commands:
 ```
